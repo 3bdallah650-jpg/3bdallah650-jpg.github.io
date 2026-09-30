@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="228 118 798 1014" role="img" aria-labelledby="title">
+  <title id="title">WISAM</title>
+  <defs>
+    <linearGradient id="pin" x1="0" y1="0" x2=".82" y2="1">
+      <stop stop-color="#D4A8FA"/>
+      <stop offset=".39" stop-color="#AF66F8"/>
+      <stop offset=".75" stop-color="#8B3BE8"/>
+      <stop offset="1" stop-color="#5615B9"/>
+    </linearGradient>
+    <linearGradient id="lower" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9D4CF3" stop-opacity=".92"/>
+      <stop offset=".59" stop-color="#9B55EA" stop-opacity=".23"/>
+      <stop offset="1" stop-color="#361080" stop-opacity=".38"/>
+    </linearGradient>
+    <linearGradient id="heart" x1="0" y1="0" x2=".36" y2="1">
+      <stop stop-color="#FCFAFF"/>
+      <stop offset="1" stop-color="#CEB3F8"/>
+    </linearGradient>
+    <clipPath id="clip"><path d="M627 134C838 134 1010 306 1010 518C1010 655 924 760 823 882L626 1118L431 884C330 760 244 655 244 518C244 306 416 134 627 134Z"/></clipPath>
+  </defs>
+  <path d="M627 134C838 134 1010 306 1010 518C1010 655 924 760 823 882L626 1118L431 884C330 760 244 655 244 518C244 306 416 134 627 134Z" fill="url(#pin)"/>
+  <g clip-path="url(#clip)">
+    <path d="M225 425C390 268 543 260 688 301C844 346 956 456 1044 530L1044 750C867 733 733 708 606 687C443 659 337 584 225 425Z" fill="#9F53F2" opacity=".31"/>
+    <path d="M221 453C326 599 414 709 591 746C730 775 886 746 1047 610L1047 780C902 845 749 820 649 882C566 934 522 1014 482 1108L223 1108Z" fill="url(#lower)"/>
+    <path d="M367 967C494 831 641 765 826 709C901 687 974 650 1040 590L1040 1143H413Z" fill="#5D1BBC" opacity=".17"/>
+  </g>
+  <circle cx="629" cy="517" r="221" fill="#2D0E65"/>
+  <path d="M627 456C597 415 569 399 537 412C503 426 486 456 488 489C491 533 524 568 565 608C592 634 615 655 627 669C641 651 661 631 690 605C730 568 764 532 767 488C769 453 751 424 718 412C685 399 653 415 627 456Z" fill="url(#heart)"/>
+</svg>

@@ -1,0 +1,315 @@
+---
+import type { SiteContent } from '../content/schema';
+import '../styles/home-next.css';
+import { assets } from '../data/assets';
+import { team } from '../data/team';
+import Wearable from './Wearable.astro';
+import AIStory from './AIStory.astro';
+import Roadmap from './Roadmap.astro';
+import EvidenceDashboard from './EvidenceDashboard.astro';
+interface Props {
+  content: SiteContent;
+}
+const { content: c } = Astro.props;
+const ar = c.locale === 'ar';
+const evidenceUrl = ar ? '/ar/evidence/' : '/evidence/';
+const captures = ar
+  ? [assets.homeAr, assets.alertAr, assets.responderAr]
+  : [assets.homeEn, assets.alertAr, assets.responderAr];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <picture class="hero-media">
+    <source media="(max-width: 760px)" srcset={assets.heroMobile.filename} />
+    <img
+      class="hero-photo"
+      src={assets.hero.filename}
+      alt={ar ? assets.hero.altAr : assets.hero.altEn}
+      width="1600"
+      height="900"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+  <div class="hero-shade"></div>
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow hero-eyebrow">{c.hero.eyebrow}</p><h1 id="hero-title">{c.hero.title}</h1><p
+        class="hero-lead"
+      >
+        {c.hero.body}
+      </p><div class="hero-actions">
+        <a class="button button-light" href="#what"
+          >{c.hero.primary}<span aria-hidden="true">↗</span></a
+        ><a class="button button-ghost-light" href={evidenceUrl}
+          >{c.hero.secondary}<span aria-hidden="true">↗</span></a
+        >
+      </div><p class="hero-status"><span class="status-dot"></span>{c.hero.status}</p>
+    </div>
+  </div>
+  <p class="hero-image-note">{c.hero.imageNote}</p>
+</section>
+
+<section class="section what-section" id="what" aria-labelledby="what-title">
+  <div class="container">
+    <div class="what-intro">
+      <div>
+        <p class="eyebrow">{c.what.eyebrow}</p>
+        <h2 id="what-title">{c.what.title}</h2>
+        <p class="what-lead">{c.what.lead}</p>
+        <p>{c.what.body}</p>
+      </div>
+      <div class="what-questions">
+        <p>
+          {
+            ar
+              ? 'الموقع وحده لا يجيب عن هذه الأسئلة:'
+              : 'Location alone cannot answer these questions:'
+          }
+        </p>
+        <ul>{c.what.questions.map((question) => <li>{question}</li>)}</ul>
+      </div>
+    </div>
+    <ol
+      class="what-flow"
+      aria-label={ar
+        ? 'من الإشارات إلى معلومات قابلة للمراجعة'
+        : 'From signals to information for review'}
+    >
+      {
+        c.what.flow.map((stage, index) => (
+          <li>
+            <span class="what-flow-index" dir="ltr">
+              0{index + 1}
+            </span>
+            <strong>{stage.title}</strong>
+            <span class="what-flow-detail">{stage.detail}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="what-status">{c.what.status}</p>
+  </div>
+</section>
+
+<section class="section problem-section" aria-labelledby="problem-title">
+  <div class="container split-heading">
+    <div>
+      <p class="eyebrow">01 / {c.problem.eyebrow}</p><h2 id="problem-title">{c.problem.title}</h2>
+    </div><div class="split-body">
+      <p class="large-copy">{c.problem.body}</p><ul class="line-list">
+        {
+          c.problem.points.map((item, i) => (
+            <li>
+              <>
+                <span class="index">0{i + 1}</span>
+                <span>{item}</span>
+              </>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <figure class="container contextual-scene problem-scene">
+    <div class="contextual-image">
+      <img
+        src={assets.neighborhood.filename}
+        alt={ar ? assets.neighborhood.altAr : assets.neighborhood.altEn}
+        width="1280"
+        height="960"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <figcaption>{c.problem.imageNote}</figcaption>
+  </figure>
+</section>
+
+<section class="section does-section" id="how" aria-labelledby="does-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">02 / {c.does.eyebrow}</p><h2 id="does-title">{c.does.title}</h2><p>
+        {c.does.intro}
+      </p>
+    </div><div class="three-steps five-steps">
+      {
+        c.does.steps.map((step, i) => (
+          <article class="step">
+            <>
+              <span class="step-index">0{i + 1}</span>
+              <div class="step-icon" aria-hidden="true">
+                <span class={`diagram-glyph glyph-${i + 1}`} />
+              </div>
+              <h3>{step}</h3>
+              <p>{c.does.descriptions[i]}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<Wearable locale={c.locale} />
+
+<AIStory locale={c.locale} />
+
+<section class="section prototype-section" id="prototype" aria-labelledby="prototype-title">
+  <div class="container">
+    <div class="section-head on-dark">
+      <p class="eyebrow">04 / {c.product.eyebrow}</p><h2 id="prototype-title">
+        {c.product.title}
+      </h2><p>{c.product.intro}</p>
+    </div><div class="product-gallery">
+      {
+        captures.map((capture, i) => (
+          <figure class="product-capture">
+            <>
+              <div class="screen-frame">
+                <img
+                  src={capture.filename}
+                  alt={ar ? capture.altAr : capture.altEn}
+                  width="390"
+                  height="844"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption>
+                <>
+                  <strong>{c.product.cards[i]}</strong>
+                  <span>{c.product.captions[i]}</span>
+                </>
+              </figcaption>
+            </>
+          </figure>
+        ))
+      }
+    </div><p class="product-note"><span aria-hidden="true">ⓘ</span>{c.product.note}</p>
+  </div>
+</section>
+
+<section class="section why-section" aria-labelledby="why-title">
+  <div class="container">
+    <div class="why-intro">
+      <div class="section-head">
+        <p class="eyebrow">05 / {c.why.eyebrow}</p><h2 id="why-title">{c.why.title}</h2>
+      </div>
+      <figure class="contextual-scene why-scene">
+        <div class="contextual-image">
+          <img
+            src={assets.caregiver.filename}
+            alt={ar ? assets.caregiver.altAr : assets.caregiver.altEn}
+            width="1280"
+            height="960"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>{c.why.imageNote}</figcaption>
+      </figure>
+    </div><div class="pillar-grid">
+      {
+        c.why.pillars.map((pillar, i) => (
+          <article>
+            <>
+              <span class="pillar-n">0{i + 1}</span>
+              <h3>{pillar}</h3>
+              <p>{c.why.descriptions[i]}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section evidence-section" aria-labelledby="evidence-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">06 / {c.evidence.eyebrow}</p><h2 id="evidence-title">
+        {c.evidence.title}
+      </h2><p>{c.evidence.intro}</p>
+    </div><EvidenceDashboard content={c} compact /><div class="evidence-bottom">
+      <p>{c.evidence.proxyNote}</p><a class="text-link" href={evidenceUrl}
+        >{c.evidence.cta}<span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </div>
+</section>
+
+<Roadmap locale={c.locale} />
+
+<section class="section partner-teaser" id="partnership" aria-labelledby="partner-teaser-title">
+  <div class="container partner-teaser-inner">
+    <div>
+      <p class="eyebrow">08 / {ar ? 'الشراكات' : 'Partnerships'}</p><h2 id="partner-teaser-title">
+        {
+          ar
+            ? 'لربط الساعة واختبار التنبيهات، نحتاج شركاء من الأجهزة والبحث والرعاية.'
+            : 'Connecting a watch and testing alerts takes wearable, research, and care partners.'
+        }
+      </h2><p>
+        {
+          ar
+            ? 'خبرة الأجهزة، وبيئات التجربة، والبحث، والوصول إلى المستفيدين، والتمويل: لكل شريك دور في نقل وسام من النموذج البرمجي إلى اختبار ميداني منضبط.'
+            : 'Device expertise, pilot settings, research, access to participants, and capital each have a role in moving WISAM from software prototype to a controlled field test.'
+        }
+      </p>
+    </div><a class="button" href={ar ? '/ar/partners/' : '/partners/'}
+      >{ar ? 'استكشف الشراكات' : 'Explore partnerships'} <span aria-hidden="true">↗</span></a
+    >
+  </div>
+</section>
+
+<section class="section team-section" id="team" aria-labelledby="team-title">
+  <div class="container">
+    <div class="team-heading">
+      <div>
+        <p class="eyebrow">09 / {c.team.eyebrow}</p><h2 id="team-title">{c.team.title}</h2>
+      </div><p class="large-copy">{c.team.body}</p>
+    </div>
+    <div class="team-portraits">
+      {
+        team.map((member) => (
+          <figure class:list={['team-person', member.id === 'anan' && 'team-person--anan']}>
+            <>
+              <div class="team-image">
+                <img
+                  src={member.image}
+                  alt={ar ? member.altAr : member.altEn}
+                  width={member.width}
+                  height={member.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption>
+                <strong>{ar ? member.nameAr : member.nameEn}</strong>
+                {ar && (
+                  <span dir="ltr" lang="en">
+                    {member.nameEn}
+                  </span>
+                )}
+              </figcaption>
+            </>
+          </figure>
+        ))
+      }
+    </div>
+    <div class="team-contact">
+      <p>
+        {
+          ar
+            ? 'تعمل على الأجهزة القابلة للارتداء أو التجارب الميدانية؟'
+            : 'Working on wearables or real-world studies?'
+        }
+      </p>
+      <a class="text-link" href={ar ? '/ar/partners/' : '/partners/'}>
+        {ar ? 'تعرّف على فرص التعاون' : 'Explore ways to collaborate'}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>

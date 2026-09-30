@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Home from '../components/Home.astro';
+import { en } from '../content/en';
+---
+
+<BaseLayout content={en} title={en.meta.homeTitle} description={en.meta.homeDescription} route="/"
+  ><Home content={en} /></BaseLayout
+>

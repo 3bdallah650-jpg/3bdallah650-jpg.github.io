@@ -1,0 +1,377 @@
+---
+import type { Locale } from '../content/schema';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ar = locale === 'ar';
+const stages = ar
+  ? [
+      {
+        title: 'لكل إشارة مسار تحليل',
+        body: 'يفحص GPS الموقع، ويعالج HRV تباين النبض، ويضيف IMU سياق الحركة، بينما يصل طلب SOS كإشارة سلامة مباشرة.',
+        tag: 'GPS · HRV · IMU · SOS',
+      },
+      {
+        title: 'خط الأساس يحدد المعتاد',
+        body: 'يقارن GPS المسار والمناطق بما هو معتاد للشخص. ويمكن تزويد HRV بخط أساس خاص؛ ولا يُطبّق الخط نفسه تلقائيًا على كل الإشارات.',
+        tag: 'Personal Baseline',
+      },
+      {
+        title: 'يرصد الاختلاف عن المعتاد',
+        body: 'تعطي المكوّنات درجات للإشارات المتاحة. تُراجع قواعد السلامة أحداثًا مثل SOS، وتبقى الإشارة القديمة أو المفقودة واضحة.',
+        tag: 'Anomaly Detection',
+      },
+      {
+        title: 'دمج المخاطر يضع الإشارات معًا',
+        body: 'يجمع منطق Risk Fusion درجات المكوّنات المتاحة مع قواعد تصعيد السلامة ليخرج بحالة واحدة قابلة للمراجعة.',
+        tag: 'Risk Fusion',
+      },
+      {
+        title: 'الإنسان يراجع ويتصرف',
+        body: 'تصل الحالة والتنبيهات والسياق المتاح إلى واجهات مقدّم الرعاية والمستجيب. الإنسان هو من يقرر الخطوة المناسبة.',
+        tag: 'Human Review',
+      },
+    ]
+  : [
+      {
+        title: 'Each signal has its own pathway',
+        body: 'GPS examines location, HRV processes beat-to-beat variation, IMU adds movement context, and SOS arrives as a direct safety signal.',
+        tag: 'GPS · HRV · IMU · SOS',
+      },
+      {
+        title: 'The baseline defines what is usual',
+        body: 'GPS compares routes and zones with the person’s pattern. HRV can receive its own baseline; one baseline is not automatically applied to every signal.',
+        tag: 'Personal Baseline',
+      },
+      {
+        title: 'Changes are checked',
+        body: 'Components score the signals they receive. Safety rules check events such as SOS, while stale or missing signals stay visible.',
+        tag: 'Anomaly Detection',
+      },
+      {
+        title: 'Risk fusion brings signals together',
+        body: 'Risk Fusion combines available component scores with safety escalation rules into one state for review.',
+        tag: 'Risk Fusion',
+      },
+      {
+        title: 'A person reviews and responds',
+        body: 'Available status, alerts, and context reach caregiver and responder interfaces. A person decides on the next step.',
+        tag: 'Human Review',
+      },
+    ];
+---
+
+<section class="ai-story section" id="intelligence" aria-labelledby="ai-title" data-ai-story>
+  <div class="container ai-head">
+    <div>
+      <p class="eyebrow">03 / {ar ? 'الذكاء والتحليل' : 'AI and analytics'}</p><h2 id="ai-title">
+        {
+          ar
+            ? 'ذكاء يقرأ السياق، لا الإشارة وحدها.'
+            : 'Intelligence that reads context, not a signal in isolation.'
+        }
+      </h2>
+    </div>
+    <p>
+      {
+        ar
+          ? 'لا يعتمد وسام على قراءة واحدة. يفحص كل مسار ما يتاح له، ثم يجمع النتائج وقواعد السلامة ليعرض حالة يمكن للإنسان مراجعتها.'
+          : 'WISAM does not depend on one reading. Each pathway checks the data it has, then combines results and safety rules into a state a person can review.'
+      }
+    </p>
+  </div>
+  <div class="container ai-layout">
+    <div class="ai-visual" aria-hidden="true" data-ai-visual data-stage="0">
+      <div class="ai-visual-top">
+        <span>WISAM / INTELLIGENCE</span><span data-ai-counter dir="ltr">01 / 05</span>
+      </div>
+      <svg
+        class="ai-map"
+        viewBox="0 0 440 490"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+      >
+        <path
+          class="ai-map-track"
+          d="M94 82 C162 72 235 132 342 154 C391 175 366 222 296 233 C204 247 107 262 99 306 C92 350 174 354 260 374 C322 389 343 413 297 446"
+        ></path>
+        <path
+          class="ai-map-progress"
+          pathLength="1"
+          d="M94 82 C162 72 235 132 342 154 C391 175 366 222 296 233 C204 247 107 262 99 306 C92 350 174 354 260 374 C322 389 343 413 297 446"
+        ></path>
+        <g class="ai-map-marker" data-ai-marker="0" transform="translate(94 82)"
+          ><image
+            href="/media/wisam-map-marker-on-dark.svg"
+            x="-17"
+            y="-44"
+            width="34"
+            height="44"
+          /></g
+        >
+        <g class="ai-map-marker" data-ai-marker="1" transform="translate(342 154)"
+          ><image
+            href="/media/wisam-map-marker-on-dark.svg"
+            x="-17"
+            y="-44"
+            width="34"
+            height="44"
+          /></g
+        >
+        <g class="ai-map-marker" data-ai-marker="2" transform="translate(99 306)"
+          ><image
+            href="/media/wisam-map-marker-on-dark.svg"
+            x="-17"
+            y="-44"
+            width="34"
+            height="44"
+          /></g
+        >
+        <g class="ai-map-marker" data-ai-marker="3" transform="translate(260 374)"
+          ><image
+            href="/media/wisam-map-marker-on-dark.svg"
+            x="-17"
+            y="-44"
+            width="34"
+            height="44"
+          /></g
+        >
+        <g class="ai-map-marker" data-ai-marker="4" transform="translate(297 446)"
+          ><image
+            href="/media/wisam-map-marker-on-dark.svg"
+            x="-17"
+            y="-44"
+            width="34"
+            height="44"
+          /></g
+        >
+      </svg>
+      <div class="ai-visual-foot">
+        <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span>
+      </div>
+    </div>
+    <ol class="ai-steps">
+      {
+        stages.map((stage, i) => (
+          <li data-ai-step={i}>
+            <>
+              <span class="ai-step-no">
+                0{i + 1} / 05 — {stage.tag}
+              </span>
+              <h3>{stage.title}</h3>
+              <p>{stage.body}</p>
+            </>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .ai-story {
+    background: #222025;
+    color: #f8f4ed;
+  }
+  .ai-head {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 8%;
+    align-items: end;
+    margin-bottom: 56px;
+  }
+  .ai-head h2 {
+    max-width: 780px;
+    margin: 0;
+  }
+  .ai-head > p {
+    max-width: 440px;
+    color: #d9d0df;
+    font-size: 1.08rem;
+    margin: 0 0 8px;
+  }
+  .ai-story .eyebrow {
+    color: #cbb4ef;
+  }
+  .ai-layout {
+    display: grid;
+    grid-template-columns: 1.06fr 0.94fr;
+    gap: clamp(35px, 7vw, 110px);
+  }
+  .ai-visual {
+    position: sticky;
+    top: 95px;
+    height: min(650px, calc(100svh - 115px));
+    min-height: 530px;
+    padding: 24px 28px;
+    background: radial-gradient(circle at 51% 48%, #302b35 0%, #29272c 49%, #211f24 100%);
+    border: 1px solid #61536b;
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-shadow: 0 28px 80px #0004;
+    overflow: hidden;
+  }
+  .ai-visual-top,
+  .ai-visual-foot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #d6c9e7;
+  }
+  .ai-visual-foot {
+    margin-top: auto;
+    border-top: 1px solid #ffffff25;
+    padding-top: 14px;
+  }
+  .ai-map {
+    width: 100%;
+    min-height: 0;
+    flex: 1;
+    margin: 10px auto 0;
+    overflow: visible;
+  }
+  .ai-map-track,
+  .ai-map-progress {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+  .ai-map-track {
+    stroke: #92849d;
+    stroke-dasharray: 4 10;
+    opacity: 0.5;
+  }
+  .ai-map-progress {
+    stroke: #ca9af2;
+    stroke-width: 3;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ai-map-marker {
+    opacity: 0.42;
+    transition:
+      opacity 0.45s ease,
+      filter 0.45s ease;
+  }
+  .ai-map-marker.is-reached {
+    opacity: 0.85;
+  }
+  .ai-map-marker.is-current {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px #b46af3b3);
+  }
+  .ai-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-inline-start: 1px solid #64566d;
+  }
+  .ai-steps li {
+    min-height: 410px;
+    padding: 80px 0 50px 38px;
+    max-width: 480px;
+    opacity: 0.75;
+    transition:
+      opacity 0.4s,
+      transform 0.4s;
+  }
+  .ai-steps li.is-active {
+    opacity: 1;
+    transform: translateX(5px);
+  }
+  .ai-steps li:last-child {
+    min-height: 300px;
+  }
+  .ai-step-no {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #cbb4ef;
+    font-weight: 700;
+  }
+  .ai-steps h3 {
+    font-size: clamp(1.7rem, 2.5vw, 2.5rem);
+    margin: 18px 0 12px;
+    line-height: 1.2;
+  }
+  .ai-steps p {
+    color: #d3cbd6;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  html[dir='rtl'] .ai-steps li {
+    padding: 80px 38px 50px 0;
+  }
+  html[dir='rtl'] .ai-steps li.is-active {
+    transform: translateX(-5px);
+  }
+  @media (max-width: 850px) {
+    .ai-head,
+    .ai-layout {
+      grid-template-columns: 1fr;
+    }
+    .ai-head {
+      gap: 22px;
+    }
+    .ai-visual {
+      position: relative;
+      top: auto;
+      height: auto;
+      min-height: 0;
+      padding-bottom: 24px;
+    }
+    .ai-steps {
+      border: 0;
+      display: grid;
+      gap: 13px;
+    }
+    .ai-steps li,
+    html[dir='rtl'] .ai-steps li {
+      min-height: 0;
+      padding: 20px 0;
+      border-bottom: 1px solid #ffffff25;
+      opacity: 1;
+      transform: none !important;
+    }
+    .ai-steps h3 {
+      font-size: 1.5rem;
+    }
+    .ai-map-progress {
+      stroke-dashoffset: 0 !important;
+    }
+    .ai-map-marker {
+      opacity: 1;
+    }
+  }
+  @media (max-width: 500px) {
+    .ai-visual {
+      padding: 20px 16px;
+    }
+    .ai-map {
+      max-height: 420px;
+    }
+    .ai-head > p {
+      font-size: 1rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-steps li,
+    .ai-map-progress,
+    .ai-map-marker {
+      transition: none !important;
+    }
+    .ai-map-progress {
+      stroke-dashoffset: 0 !important;
+    }
+    .ai-map-marker {
+      opacity: 1;
+    }
+  }
+</style>

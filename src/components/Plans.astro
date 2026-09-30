@@ -1,0 +1,581 @@
+---
+import type { SiteContent } from '../content/schema';
+interface Props {
+  content: SiteContent;
+}
+const { content: c } = Astro.props;
+const ar = c.locale === 'ar';
+const plans = ar
+  ? [
+      {
+        name: 'Free',
+        descriptor: 'ملف الطوارئ الأساسي',
+        month: '0',
+        year: null,
+        badge: '',
+        features: [
+          'ملف QR للطوارئ',
+          'معلومات صحية وتعريفية أساسية',
+          'معلومات تواصل العائلة',
+          'إعدادات الجهاز والحساب',
+          'إدارة الملف',
+        ],
+        limitation: 'لا تشمل المراقبة المتصلة أو الموقع المباشر أو تنبيهات المناطق الآمنة.',
+      },
+      {
+        name: 'Essential',
+        descriptor: 'السلامة المتصلة',
+        month: '59',
+        year: '599',
+        badge: '',
+        features: [
+          'الموقع المباشر',
+          'منطقة آمنة واحدة',
+          'تنبيهات SOS',
+          'تنبيهات سلامة فورية',
+          'سجل موقع 24 ساعة',
+          'مقدّم رعاية واحد',
+          'حالة الجهاز والبطارية',
+        ],
+        limitation: '30 يومًا مستهدفة ضمن باقة WISAM المبدئية.',
+      },
+      {
+        name: 'Care',
+        descriptor: 'رعاية شخصية بمساعدة الذكاء',
+        month: '99',
+        year: '999',
+        badge: 'موصى بها',
+        features: [
+          'كل مزايا Essential',
+          'حتى 5 مناطق آمنة',
+          'خط أساس سلوكي شخصي',
+          'رصد أنماط غير معتادة بالذكاء الاصطناعي',
+          'سياق نبض القلب والحركة',
+          'فهم تغيّر الروتين',
+          'سجل 30 يومًا',
+          'حتى 3 مقدّمي رعاية',
+          'ملخص سلامة أسبوعي بمساعدة الذكاء',
+          'ملف طوارئ متقدم للمستجيب',
+        ],
+        limitation: '',
+      },
+      {
+        name: 'Guardian',
+        descriptor: 'سياق مخاطر أوسع',
+        month: '149',
+        year: '1,499',
+        badge: '',
+        features: [
+          'كل مزايا Care',
+          'مناطق آمنة موسعة',
+          'رصد متقدم للأنماط غير المعتادة',
+          'دمج مخاطر من إشارات متعددة',
+          'سياق موسع للحركة والروتين والإشارات الصحية المتاحة',
+          'سجل 90 يومًا',
+          'وصول موسع لمقدّمي الرعاية',
+          'ملخصات سلامة متقدمة بمساعدة الذكاء',
+          'دعم ذو أولوية',
+        ],
+        limitation: '',
+      },
+    ]
+  : [
+      {
+        name: 'Free',
+        descriptor: 'Emergency essentials',
+        month: '0',
+        year: null,
+        badge: '',
+        features: [
+          'Emergency QR profile',
+          'Basic health and identity information',
+          'Family contact information',
+          'Device/account settings',
+          'Profile management',
+        ],
+        limitation: 'Does not include connected monitoring, live location, or safe-zone alerts.',
+      },
+      {
+        name: 'Essential',
+        descriptor: 'Connected safety',
+        month: '59',
+        year: '599',
+        badge: '',
+        features: [
+          'Live location',
+          '1 safe zone',
+          'SOS alerts',
+          'Real-time safety alerts',
+          '24-hour location history',
+          '1 caregiver',
+          'Device and battery status',
+        ],
+        limitation: '30 days targeted for inclusion with the planned Starter Bundle.',
+      },
+      {
+        name: 'Care',
+        descriptor: 'Personalized AI care',
+        month: '99',
+        year: '999',
+        badge: 'Recommended',
+        features: [
+          'Everything in Essential',
+          'Up to 5 safe zones',
+          'Personalized behavioral baseline',
+          'AI anomaly detection',
+          'Heart rate and movement context',
+          'Routine change intelligence',
+          '30-day history',
+          'Up to 3 caregivers',
+          'Weekly AI-assisted safety summary',
+          'Advanced emergency responder profile',
+        ],
+        limitation: '',
+      },
+      {
+        name: 'Guardian',
+        descriptor: 'Advanced risk intelligence',
+        month: '149',
+        year: '1,499',
+        badge: '',
+        features: [
+          'Everything in Care',
+          'Expanded safe zones',
+          'Advanced anomaly detection',
+          'Multimodal risk intelligence',
+          'Expanded movement, routine, and available health-signal context',
+          '90-day history',
+          'Expanded caregiver access',
+          'Advanced AI-assisted safety summaries',
+          'Priority support',
+        ],
+        limitation: '',
+      },
+    ];
+const email = `mailto:wisam.sa.2030@gmail.com?subject=${encodeURIComponent(ar ? 'استفسار عن إطلاق WISAM القادم' : 'WISAM Planned Launch Inquiry')}`;
+---
+
+<section class="plans-hero" aria-labelledby="plans-title">
+  <div class="container plans-hero-inner">
+    <span class="plans-status">{ar ? 'نموذج الإطلاق المستهدف' : 'Planned Launch Model'}</span><h1
+      id="plans-title"
+    >
+      {
+        ar
+          ? 'من أساسيات السلامة إلى فهم أعمق للروتين.'
+          : 'From essential safety to deeper personal context.'
+      }
+    </h1><p>
+      {
+        ar
+          ? 'يبدأ نموذج الباقات المستهدف بملف للطوارئ، ثم يضيف الاتصال والتنبيهات والتحليل الشخصي حسب احتياج الأسرة. الباقات غير متاحة للاشتراك الآن.'
+          : 'The planned model starts with an emergency profile, then adds connectivity, alerts, and personal analysis as a family needs them. Subscriptions are not available yet.'
+      }
+    </p>
+  </div>
+</section>
+
+<section class="plans-bundle section" aria-labelledby="bundle-title">
+  <div class="container bundle-layout">
+    <div>
+      <p class="eyebrow">{ar ? 'البداية المستهدفة' : 'A planned starting point'}</p><h2
+        id="bundle-title"
+      >
+        {ar ? 'باقة WISAM المبدئية' : 'WISAM Starter Bundle'}
+      </h2><p>
+        {
+          ar
+            ? 'يستهدف نموذج الإطلاق الحالي لـWISAM استخدام Samsung Galaxy Watch8 LTE وربطها بمنصة WISAM وتجربة مقدم الرعاية.'
+            : 'WISAM’s current planned launch model is designed around the Samsung Galaxy Watch8 LTE, paired with the WISAM platform and caregiver experience.'
+        }
+      </p><p class="bundle-note">
+        {
+          ar
+            ? 'اسم الساعة هنا يصف نموذج الجهاز التجاري المستهدف فقط؛ التكامل التقني الفعلي مرحلة قادمة.'
+            : 'The named watch is the target commercial hardware model; physical integration remains a next stage.'
+        }
+      </p>
+    </div><div class="bundle-price">
+      <small>{ar ? 'سعر الإطلاق المستهدف' : 'Target launch price'}</small><strong
+        ><bdi dir="ltr">1,149</bdi> <span>{ar ? 'ريال' : 'SAR'}</span></strong
+      ><em>{ar ? 'دفعة واحدة' : 'One time'}</em><ul>
+        <li>Samsung Galaxy Watch8 LTE</li><li>
+          {ar ? 'تهيئة WISAM وتعريف مقدّم الرعاية' : 'WISAM setup and caregiver onboarding'}
+        </li><li>{ar ? 'إعداد ملف الطوارئ' : 'Emergency profile setup'}</li><li>
+          {ar ? '30 يومًا من Essential' : '30 days of Essential'}
+        </li><li>{ar ? 'دعم الإعداد الأولي' : 'Initial setup support'}</li>
+      </ul><p>
+        {
+          ar
+            ? 'رسوم LTE/eSIM وخدمات شركة الاتصالات غير مشمولة.'
+            : 'LTE/eSIM carrier service is not included.'
+        }
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="plans-pricing section" aria-labelledby="pricing-title">
+  <div class="container">
+    <div class="plans-heading">
+      <div>
+        <p class="eyebrow">{ar ? 'الباقات المخططة' : 'Planned care levels'}</p><h2
+          id="pricing-title"
+        >
+          {ar ? 'اختر مستوى الرعاية المناسب' : 'Choose the level of care that fits your family'}
+        </h2>
+      </div><p>
+        {
+          ar
+            ? 'توفّر الفوترة السنوية ما يقارب شهرين مقارنةً بإجمالي الدفع الشهري.'
+            : 'Save approximately two months with annual billing compared with the monthly total.'
+        }
+      </p>
+    </div><div class="plan-grid">
+      {
+        plans.map((plan, i) => (
+          <article class:list={['plan-card', { recommended: i === 2 }]}>
+            <div class="plan-price">
+              <>
+                <strong>
+                  <bdi dir="ltr">{plan.month}</bdi>
+                </strong>
+                <span>{ar ? 'ريال / شهر' : 'SAR / month'}</span>
+              </>
+            </div>
+            {plan.year && (
+              <p class="annual-price">
+                <bdi dir="ltr">{plan.year}</bdi> {ar ? 'ريال / سنة' : 'SAR / year'}{' '}
+                <small>
+                  ·{' '}
+                  {ar
+                    ? `مقابل ${['', '708', '1,188', '1,788'][i]} ريال عند الدفع الشهري`
+                    : `vs ${['', '708', '1,188', '1,788'][i]} SAR paid monthly`}
+                </small>
+              </p>
+            )}
+            <ul>
+              {plan.features.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            {plan.limitation && <p class="plan-limit">{plan.limitation}</p>}
+          </article>
+        ))
+      }
+    </div><p class="pricing-disclaimer">
+      {
+        ar
+          ? 'تمثل الأسعار والباقات والمزايا المعروضة نموذج الإطلاق التجاري المستهدف حاليًا لـWISAM، وليست عرضًا للبيع في الوقت الحالي. وقد يتم تعديل الأسعار والمزايا قبل الإطلاق التجاري النهائي بناءً على نتائج التكامل التقني والتجارب الميدانية والتحقق من السوق. رسوم LTE/eSIM وخدمات شركة الاتصالات غير مشمولة حاليًا.'
+          : 'Pricing, plans, and features shown represent WISAM’s current planned commercial launch model and are not currently an offer for sale. Pricing and feature availability may be refined before commercial release based on technical integration, pilot results, and market validation. LTE/eSIM carrier fees are currently excluded.'
+      }
+    </p>
+  </div>
+</section>
+
+<section class="plans-cta section" aria-labelledby="plans-cta-title">
+  <div class="container">
+    <span class="eyebrow">WISAM / {ar ? 'الإطلاق المستهدف' : 'Planned launch'}</span><h2
+      id="plans-cta-title"
+    >
+      {ar ? 'مهتم بإطلاق WISAM القادم؟' : 'Interested in WISAM’s planned launch?'}
+    </h2><a class="button" href={email}
+      >{ar ? 'تواصل معنا' : 'Talk to us'} <span aria-hidden="true">↗</span></a
+    >
+  </div>
+</section>
+
+<style>
+  .plans-hero {
+    background: #29222f;
+    color: #f9f4ed;
+    padding: 110px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .plans-hero::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #8d68b04d;
+    border-radius: 50%;
+    right: -100px;
+    top: -150px;
+    box-shadow:
+      0 0 0 100px #8d68b014,
+      0 0 0 200px #8d68b00a;
+    pointer-events: none;
+  }
+  .plans-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+  .plans-status {
+    display: inline-block;
+    background: #d3baf2;
+    color: #382154;
+    border-radius: 99px;
+    font-weight: 700;
+    font-size: 0.76rem;
+    padding: 7px 13px;
+    margin-bottom: 34px;
+  }
+  .plans-hero h1 {
+    font-size: clamp(2.8rem, 5vw, 5.1rem);
+    max-width: 900px;
+    margin-bottom: 25px;
+  }
+  .plans-hero p {
+    font-size: 1.15rem;
+    max-width: 640px;
+    color: #e2d8e8;
+  }
+  .plans-bundle {
+    background: var(--paper);
+  }
+  .bundle-layout {
+    display: grid;
+    grid-template-columns: 1fr 0.85fr;
+    gap: 12%;
+    align-items: start;
+  }
+  .bundle-layout h2 {
+    max-width: 570px;
+  }
+  .bundle-layout > div:first-child > p:not(.eyebrow) {
+    font-size: 1.15rem;
+    color: #514b53;
+    max-width: 560px;
+  }
+  .bundle-note {
+    font-size: 0.9rem !important;
+    border-inline-start: 2px solid #7b4daa;
+    padding-inline-start: 15px;
+  }
+  .bundle-price {
+    background: #e7def1;
+    padding: 37px;
+    border-radius: 22px;
+    border: 1px solid #c8b7da;
+  }
+  .bundle-price small {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #563585;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .bundle-price strong {
+    display: block;
+    color: #3d2564;
+    font-size: clamp(3rem, 5vw, 4.8rem);
+    line-height: 1.1;
+    margin: 13px 0 0;
+  }
+  .bundle-price strong span {
+    font-size: 1.3rem;
+  }
+  .bundle-price em {
+    font-style: normal;
+    font-size: 0.9rem;
+    color: #5a4d66;
+  }
+  .bundle-price ul {
+    padding-inline-start: 20px;
+    margin: 26px 0 18px;
+  }
+  .bundle-price li {
+    margin: 8px 0;
+  }
+  .bundle-price > p {
+    font-size: 0.78rem;
+    color: #554b5b;
+    border-top: 1px solid #c8b7da;
+    padding-top: 15px;
+    margin: 0;
+  }
+  .plans-pricing {
+    background: #f0ebf6;
+  }
+  .plans-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 40px;
+    margin-bottom: 55px;
+  }
+  .plans-heading h2 {
+    max-width: 690px;
+    margin: 0;
+  }
+  .plans-heading > p {
+    max-width: 310px;
+    color: #5e5760;
+  }
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    align-items: stretch;
+  }
+  .plan-card {
+    background: var(--sheet);
+    border: 1px solid #dcd3df;
+    border-radius: 19px;
+    padding: 22px 20px 25px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .plan-card.recommended {
+    background: #f5effb;
+    border: 2px solid #69429f;
+    box-shadow: 0 18px 45px #5a387b1a;
+    transform: translateY(-9px);
+  }
+  .plan-card-head {
+    min-height: 165px;
+  }
+  .recommend-badge {
+    display: inline-block;
+    background: #58338b;
+    color: white;
+    border-radius: 99px;
+    padding: 5px 11px;
+    font-size: 0.69rem;
+    font-weight: 700;
+    margin-bottom: 7px;
+  }
+  .plan-index {
+    display: block;
+    color: #7b598f;
+    font-size: 0.67rem;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .plan-card h3 {
+    font-size: 2rem;
+    margin: 7px 0 2px;
+  }
+  .plan-card-head p {
+    color: #5d5661;
+    font-size: 0.9rem;
+  }
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    border-top: 1px solid #ddd1e5;
+    padding-top: 13px;
+  }
+  .plan-price strong {
+    font-size: 2.6rem;
+    line-height: 1.2;
+    color: #362347;
+  }
+  .plan-price span {
+    font-size: 0.78rem;
+    color: #59515f;
+  }
+  .annual-price {
+    min-height: 55px;
+    color: #4f3a63;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin: 7px 0 14px;
+  }
+  .annual-price small {
+    font-weight: 400;
+    color: #69606d;
+    font-size: 0.71rem;
+  }
+  .plan-card ul {
+    border-top: 1px solid #ddd1e5;
+    padding: 15px 0 0;
+    list-style: none;
+    margin: 0;
+    flex: 1;
+  }
+  .plan-card li {
+    font-size: 0.79rem;
+    line-height: 1.5;
+    margin: 0 0 12px;
+    padding-inline-start: 20px;
+    position: relative;
+  }
+  .plan-card li::before {
+    content: '✓';
+    position: absolute;
+    inset-inline-start: 0;
+    color: #674296;
+    font-weight: 700;
+  }
+  .plan-limit {
+    border-top: 1px solid #ddd1e5;
+    padding-top: 12px;
+    font-size: 0.72rem;
+    color: #5f5762;
+    margin: 0;
+  }
+  .pricing-disclaimer {
+    font-size: 0.85rem;
+    color: #57515b;
+    line-height: 1.7;
+    max-width: 1000px;
+    margin: 32px auto 0;
+    text-align: center;
+  }
+  .plans-cta {
+    background: #28222e;
+    color: #f8f5ed;
+  }
+  .plans-cta h2 {
+    max-width: 770px;
+  }
+  .plans-cta .button {
+    background: #68429f;
+  }
+  .plans-cta .eyebrow {
+    color: #d0b5ef;
+  }
+  @media (max-width: 1040px) {
+    .plan-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .plan-card.recommended {
+      transform: none;
+    }
+    .plan-card-head {
+      min-height: 125px;
+    }
+  }
+  @media (max-width: 700px) {
+    .plans-hero {
+      padding: 75px 0;
+    }
+    .bundle-layout {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .plans-heading {
+      display: block;
+    }
+    .plans-heading > p {
+      max-width: 500px;
+      margin-top: 18px;
+    }
+    .plan-grid {
+      grid-template-columns: 1fr;
+    }
+    .plan-card-head {
+      min-height: 0;
+    }
+    .plan-card {
+      padding: 25px;
+    }
+    .plans-hero p {
+      font-size: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="WISAM brand social card">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#21123A"/><stop offset="1" stop-color="#3C1874"/></linearGradient>
+    <linearGradient id="pin" x1="0" y1="0" x2=".82" y2="1"><stop stop-color="#D4A8FA"/><stop offset=".39" stop-color="#AF66F8"/><stop offset=".75" stop-color="#8B3BE8"/><stop offset="1" stop-color="#5615B9"/></linearGradient>
+    <linearGradient id="heart" x1="0" y1="0" x2=".36" y2="1"><stop stop-color="#FCFAFF"/><stop offset="1" stop-color="#CEB3F8"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1027" cy="40" r="410" fill="#8352C5" opacity=".1"/>
+  <path d="M64 508H624" stroke="#B898E8" stroke-opacity=".28"/>
+  <text x="64" y="282" fill="#FFF8FF" font-family="Arial, sans-serif" font-size="112" font-weight="700" letter-spacing="5">WISAM</text>
+  <text x="69" y="349" fill="#D4C3E9" font-family="Arial, sans-serif" font-size="27" letter-spacing=".2">Care with context.</text>
+  <text x="69" y="549" fill="#BBA9D0" font-family="Arial, sans-serif" font-size="18" letter-spacing="1.8">PRODUCT PROTOTYPE  /  TECHNICAL EVIDENCE</text>
+  <g transform="translate(720 64) scale(.47)">
+    <path d="M627 134C838 134 1010 306 1010 518C1010 655 924 760 823 882L626 1118L431 884C330 760 244 655 244 518C244 306 416 134 627 134Z" fill="url(#pin)"/>
+    <circle cx="629" cy="517" r="221" fill="#2D0E65"/>
+    <path d="M627 456C597 415 569 399 537 412C503 426 486 456 488 489C491 533 524 568 565 608C592 634 615 655 627 669C641 651 661 631 690 605C730 568 764 532 767 488C769 453 751 424 718 412C685 399 653 415 627 456Z" fill="url(#heart)"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Partners from '../../../components/Partners.astro';
+import { ar } from '../../../content/ar';
+import { partnershipCopy } from '../../../content/partners';
+---
+
+<BaseLayout
+  content={ar}
+  title={partnershipCopy.hub.metaTitle.ar}
+  description={partnershipCopy.hub.metaDescription.ar}
+  route="/partners/"><Partners locale="ar" page="hub" /></BaseLayout
+>

@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Plans from '../../components/Plans.astro';
+import { en } from '../../content/en';
+---
+
+<BaseLayout
+  content={en}
+  route="/plans/"
+  title="Planned care levels — WISAM"
+  description="Explore WISAM’s proposed Starter Bundle and Free, Essential, Care, and Guardian plans. A planned launch model, not currently an offer for sale."
+  ><Plans content={en} /></BaseLayout
+>

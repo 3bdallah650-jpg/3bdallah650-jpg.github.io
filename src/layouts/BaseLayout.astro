@@ -1,0 +1,177 @@
+---
+import '../styles/global.css';
+import '../styles/navigation-next.css';
+import type { SiteContent } from '../content/schema';
+import { assets } from '../data/assets';
+
+interface Props {
+  content: SiteContent;
+  title: string;
+  description: string;
+  route:
+    | '/'
+    | '/evidence/'
+    | '/privacy/'
+    | '/plans/'
+    | '/partners/'
+    | '/partners/investment/'
+    | '/partners/research/'
+    | '/partners/organizations/';
+}
+const { content: c, title, description, route } = Astro.props;
+const ar = c.locale === 'ar';
+const localPath = ar ? `/ar${route}` : route;
+const otherPath = ar ? route : `/ar${route}`;
+const canonical = new URL(localPath, Astro.site).toString();
+const enUrl = new URL(route, Astro.site).toString();
+const arUrl = new URL(`/ar${route}`, Astro.site).toString();
+const home = ar ? '/ar/' : '/';
+const evidence = ar ? '/ar/evidence/' : '/evidence/';
+const privacy = ar ? '/ar/privacy/' : '/privacy/';
+const plans = ar ? '/ar/plans/' : '/plans/';
+const partners = ar ? '/ar/partners/' : '/partners/';
+const investment = ar ? '/ar/partners/investment/' : '/partners/investment/';
+const research = ar ? '/ar/partners/research/' : '/partners/research/';
+const organizations = ar ? '/ar/partners/organizations/' : '/partners/organizations/';
+const contact = `mailto:wisam.sa.2030@gmail.com?subject=${encodeURIComponent(ar ? 'استفسار عن WISAM' : 'WISAM Partnership Inquiry')}`;
+const analyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
+---
+
+<!doctype html>
+<html lang={c.locale} dir={ar ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F4EEDD" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="ar" href={arUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={ar ? 'ar_SA' : 'en_US'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta
+      property="og:image"
+      content={new URL('/media/social-card-brand.jpg', Astro.site).toString()}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta
+      name="twitter:image"
+      content={new URL('/media/social-card-brand.jpg', Astro.site).toString()}
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'WISAM',
+        url: new URL(home, Astro.site).toString(),
+        inLanguage: c.locale,
+      })}
+    />
+    {
+      analyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: analyticsToken })}
+        />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{ar ? 'تجاوز إلى المحتوى' : 'Skip to content'}</a>
+    <header class="site-header">
+      <div class="header-inner container">
+        <a class="brand" href={home} aria-label={ar ? 'وسام، الصفحة الرئيسية' : 'WISAM, home'}>
+          <img src={assets.mark.filename} width="38" height="38" alt="" />
+          <span>{ar ? 'وسام' : 'WISAM'}</span>
+        </a>
+        <nav class="desktop-nav" aria-label={ar ? 'التنقل الرئيسي' : 'Main navigation'}>
+          <a href={`${home}#how`}>{c.nav.how}</a>
+          <a href={`${home}#prototype`}>{c.nav.prototype}</a>
+          <a href={evidence}>{c.nav.evidence}</a>
+          <a href={plans}>{ar ? 'الباقات' : 'Plans'}</a>
+          <details class="partners-dropdown">
+            <summary>{ar ? 'الشراكات' : 'Partners'} <span aria-hidden="true">⌄</span></summary><div
+              class="partners-dropdown-panel"
+            >
+              <a href={partners}>{ar ? 'شارك WISAM' : 'Partner with WISAM'}</a><a href={investment}
+                >{
+                  ar ? 'الاستثمار والشراكات الاستراتيجية' : 'Investment & strategic partnerships'
+                }</a
+              ><a href={research}>{ar ? 'البحث والتجارب' : 'Research & pilots'}</a><a
+                href={organizations}
+                >{ar ? 'المنظمات والقطاع العام' : 'Organizations & public sector'}</a
+              >
+            </div>
+          </details>
+          <a href={`${home}#team`}>{c.nav.team}</a>
+        </nav>
+        <div class="header-actions">
+          <a
+            class="language-link"
+            href={otherPath}
+            lang={ar ? 'en' : 'ar'}
+            dir={ar ? 'ltr' : 'rtl'}
+            aria-label={ar ? 'Switch to English' : 'التبديل إلى العربية'}>{ar ? 'EN' : 'عربي'}</a
+          >
+          <a class="button button-small desktop-cta" href={contact}
+            >{ar ? 'تواصل معنا' : 'Contact'}<span aria-hidden="true">↗</span></a
+          >
+          <details class="mobile-menu">
+            <summary>{c.nav.menu}<span aria-hidden="true">☰</span></summary><nav
+              aria-label={ar ? 'تنقل الهاتف' : 'Mobile navigation'}
+            >
+              <a href={`${home}#how`}>{c.nav.how}</a><a href={`${home}#prototype`}
+                >{c.nav.prototype}</a
+              ><a href={evidence}>{c.nav.evidence}</a><a href={plans}>{ar ? 'الباقات' : 'Plans'}</a
+              ><a href={partners}>{ar ? 'الشراكات' : 'Partners'}</a><a href={investment}
+                >{ar ? 'الاستثمار' : 'Investment'}</a
+              ><a href={research}>{ar ? 'البحث والتجارب' : 'Research & pilots'}</a><a
+                href={organizations}
+                >{ar ? 'المنظمات والقطاع العام' : 'Organizations & public sector'}</a
+              ><a href={`${home}#team`}>{c.nav.team}</a><a href={contact}
+                >{ar ? 'تواصل معنا' : 'Contact'}</a
+              ><a href={otherPath} lang={ar ? 'en' : 'ar'}>{ar ? 'English' : 'العربية'}</a>
+            </nav>
+          </details>
+        </div>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="container footer-top">
+        <div>
+          <div class="footer-brand">
+            <img src={assets.markDark.filename} width="42" height="42" alt="" /><strong
+              >{ar ? 'وسام' : 'WISAM'}</strong
+            >
+          </div><p>{c.footer.status}</p>
+        </div><nav aria-label={ar ? 'روابط التذييل' : 'Footer links'}>
+          <a href={evidence}>{c.footer.evidence}</a><a href={plans}>{ar ? 'الباقات' : 'Plans'}</a><a
+            href={partners}>{ar ? 'الشراكات' : 'Partners'}</a
+          ><a href={privacy}>{c.footer.privacy}</a><a href={contact}>{c.footer.contact}</a><a
+            href={otherPath}
+            lang={ar ? 'en' : 'ar'}>{ar ? 'English' : 'العربية'}</a
+          >
+        </nav>
+      </div>
+      <div class="container footer-bottom">
+        <span>{c.footer.rights}</span><span>© {new Date().getFullYear()}</span>
+      </div>
+    </footer>
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>

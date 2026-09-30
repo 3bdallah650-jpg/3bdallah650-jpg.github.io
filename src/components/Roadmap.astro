@@ -1,0 +1,259 @@
+---
+import type { Locale } from '../content/schema';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ar = locale === 'ar';
+const stages = ar
+  ? [
+      ['الفكرة وتصميم النظام', 'مكتمل'],
+      ['النموذج الأولي العامل', 'مكتمل'],
+      ['الأدلة التقنية', 'الحالي'],
+      ['التكامل مع جهاز فعلي', 'التالي'],
+      ['تجربة ميدانية مضبوطة', 'مستقبلي'],
+      ['التحقق والجاهزية التجارية', 'مستقبلي'],
+    ]
+  : [
+      ['Concept & system design', 'Completed'],
+      ['Functional prototype', 'Completed'],
+      ['Technical evidence', 'Current'],
+      ['Real wearable integration', 'Next'],
+      ['Controlled real-world pilot', 'Future'],
+      ['Validation & commercial readiness', 'Future'],
+    ];
+---
+
+<section
+  class="roadmap-next section"
+  id="roadmap"
+  aria-labelledby="roadmap-next-title"
+  data-roadmap
+>
+  <div class="container roadmap-head">
+    <div>
+      <p class="eyebrow">{ar ? 'مسار التقدم' : 'The project roadmap'}</p><h2
+        id="roadmap-next-title"
+      >
+        {
+          ar
+            ? 'بنينا النظام. والمرحلة القادمة هي إثباته في الواقع.'
+            : 'We built the system. The next stage is proving it in the real world.'
+        }
+      </h2><p>
+        {
+          ar
+            ? 'نحن في المرحلة ٣ من ٦: تقييم الأدلة التقنية للمكوّنات. يليها ربط جهاز فعلي، ثم تجربة ميدانية منضبطة تقيس عمل النظام مع الناس.'
+            : 'We are at stage 3 of 6, evaluating technical component evidence. Next come physical-device integration and a controlled pilot to test how the system works with people.'
+        }
+      </p>
+    </div>
+    <div class="roadmap-current">
+      <span>{ar ? 'المرحلة الحالية' : 'CURRENT STAGE'}</span><strong>03 <small>/ 06</small></strong
+      ><b>{ar ? 'الأدلة التقنية' : 'Technical Evidence'}</b>
+    </div>
+  </div>
+  <ol class="container roadmap-stages">
+    {
+      stages.map(([title, status], i) => (
+        <li class:list={[{ completed: i < 2, current: i === 2, future: i > 2 }]}>
+          <>
+            <span class="roadmap-dot" aria-hidden="true" />
+            <span class="roadmap-index" dir="ltr">
+              0{i + 1}
+            </span>
+            <strong>{title}</strong>
+            <small>{status}</small>
+          </>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .roadmap-next {
+    background: #f0ebf6;
+    color: #29242e;
+    padding-block: clamp(76px, 8vw, 116px);
+  }
+  .roadmap-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    align-items: end;
+    margin-bottom: 58px;
+  }
+  .roadmap-head > div:first-child {
+    max-width: 730px;
+  }
+  .roadmap-head h2 {
+    margin-bottom: 20px;
+  }
+  .roadmap-head p:last-child {
+    font-size: 1.1rem;
+    color: #5b5560;
+    max-width: 650px;
+  }
+  .roadmap-current {
+    flex: none;
+    border: 1px solid #bba9cf;
+    border-radius: 18px;
+    padding: 22px 28px;
+    min-width: 250px;
+    background: #fcfafd;
+  }
+  .roadmap-current span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #613b92;
+  }
+  .roadmap-current strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 3.8rem;
+    line-height: 1.1;
+    color: #55338a;
+  }
+  .roadmap-current strong small {
+    font-size: 1.5rem;
+    color: #9688a4;
+  }
+  .roadmap-current b {
+    display: block;
+    font-size: 1rem;
+  }
+  .roadmap-stages {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-block: 0;
+    position: relative;
+    gap: 0;
+  }
+  .roadmap-stages::before,
+  .roadmap-stages::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    inset-inline-start: 10px;
+    height: 2px;
+    background: #c9c0ce;
+    width: 83.333%;
+  }
+  .roadmap-stages::after {
+    background: #6d42aa;
+    transform: scaleX(var(--roadmap-progress, 0));
+    transform-origin: left center;
+  }
+  :global(html[dir='rtl']) .roadmap-stages::after {
+    transform-origin: right center;
+  }
+  .roadmap-stages li {
+    position: relative;
+    z-index: 1;
+    padding: 35px 18px 0 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 153px;
+  }
+  .roadmap-dot {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e6e0e8;
+    border: 2px solid #ab9cae;
+  }
+  .completed .roadmap-dot {
+    background: #6d42aa;
+    border-color: #6d42aa;
+  }
+  .current .roadmap-dot {
+    background: #fcfafd;
+    border: 5px solid #6d42aa;
+    box-shadow: 0 0 0 6px #6d42aa22;
+  }
+  .roadmap-index {
+    color: #624379;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .roadmap-stages strong {
+    font-size: 1.03rem;
+    line-height: 1.3;
+    max-width: 170px;
+  }
+  .roadmap-stages small {
+    font-size: 0.75rem;
+    color: #514b55;
+    margin-top: 9px;
+  }
+  .future {
+    color: #655d68;
+  }
+  .future .roadmap-index {
+    color: #65516f;
+  }
+  .current strong {
+    color: #4a2b78;
+  }
+  :global(html[dir='rtl']) .roadmap-stages li {
+    padding: 35px 0 0 18px;
+  }
+  @media (max-width: 850px) {
+    .roadmap-head {
+      align-items: start;
+      flex-direction: column;
+      margin-bottom: 36px;
+    }
+    .roadmap-current {
+      min-width: 220px;
+    }
+    .roadmap-stages {
+      grid-template-columns: 1fr;
+    }
+    .roadmap-stages::before,
+    .roadmap-stages::after {
+      top: 10px;
+      inset-inline-start: 9px;
+      width: 2px;
+      height: calc(100% - 110px);
+    }
+    .roadmap-stages::after,
+    :global(html[dir='rtl']) .roadmap-stages::after {
+      transform: scaleY(var(--roadmap-progress, 0));
+      transform-origin: top center;
+    }
+    .roadmap-stages li,
+    :global(html[dir='rtl']) .roadmap-stages li {
+      padding: 0 0 26px 48px;
+      min-height: 100px;
+    }
+    .roadmap-dot {
+      top: 1px;
+    }
+    .roadmap-index {
+      margin: 0 0 4px;
+    }
+    :global(html[dir='rtl']) .roadmap-stages li {
+      padding: 0 48px 26px 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .roadmap-stages::after {
+      transform: scaleX(0.4);
+    }
+  }
+  @media (max-width: 850px) and (prefers-reduced-motion: reduce) {
+    .roadmap-stages::after,
+    :global(html[dir='rtl']) .roadmap-stages::after {
+      transform: scaleY(0.4);
+    }
+  }
+</style>

@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Plans from '../../../components/Plans.astro';
+import { ar } from '../../../content/ar';
+---
+
+<BaseLayout
+  content={ar}
+  route="/plans/"
+  title="الباقات المستهدفة — وسام"
+  description="تعرّف على باقة WISAM المبدئية والباقات المستهدفة Free وEssential وCare وGuardian. نموذج إطلاق مخطط له وليس عرضًا للبيع حاليًا."
+  ><Plans content={ar} /></BaseLayout
+>

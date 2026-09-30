@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="WISAM">
+  <defs><linearGradient id="pin" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#D5A8FB"/><stop offset=".5" stop-color="#AA58F2"/><stop offset="1" stop-color="#5D18BC"/></linearGradient></defs>
+  <rect width="64" height="64" rx="14" fill="#2D0E65"/>
+  <path d="M32 7C44.7 7 55 17.3 55 30c0 9-5.2 15.6-11.5 23L32 62 20.5 53C14.2 45.6 9 39 9 30 9 17.3 19.3 7 32 7Z" fill="url(#pin)"/>
+  <circle cx="32" cy="29" r="13" fill="#2D0E65"/>
+  <path d="M32 38c-2.4-2.5-7.9-6.9-8.4-11-.4-4.5 4.4-7.2 8.4-2.1 4-5.1 8.8-2.4 8.4 2.1-.5 4.1-6 8.5-8.4 11Z" fill="#F6EDFF"/>
+</svg>

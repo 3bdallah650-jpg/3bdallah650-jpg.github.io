@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="228 118 798 1014" role="img" aria-labelledby="title">
+  <title id="title">WISAM</title>
+  <defs>
+    <linearGradient id="pin" x1="0" y1="0" x2=".82" y2="1"><stop stop-color="#E0B9FF"/><stop offset=".39" stop-color="#B974FC"/><stop offset=".75" stop-color="#9545ED"/><stop offset="1" stop-color="#681BCC"/></linearGradient>
+    <linearGradient id="heart" x1="0" y1="0" x2=".36" y2="1"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#DDC9FF"/></linearGradient>
+  </defs>
+  <path d="M627 134C838 134 1010 306 1010 518C1010 655 924 760 823 882L626 1118L431 884C330 760 244 655 244 518C244 306 416 134 627 134Z" fill="url(#pin)" stroke="#EAD6FF" stroke-width="5"/>
+  <path d="M244 453C366 638 484 720 626 738C787 758 922 692 1010 588C969 734 815 797 677 821C574 841 511 913 486 951L431 884C330 760 244 655 244 518Z" fill="#7C2DD6" opacity=".31"/>
+  <circle cx="629" cy="517" r="221" fill="#270957"/>
+  <path d="M627 456C597 415 569 399 537 412C503 426 486 456 488 489C491 533 524 568 565 608C592 634 615 655 627 669C641 651 661 631 690 605C730 568 764 532 767 488C769 453 751 424 718 412C685 399 653 415 627 456Z" fill="url(#heart)"/>
+</svg>

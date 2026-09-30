@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Evidence from '../../components/Evidence.astro';
+import { en } from '../../content/en';
+---
+
+<BaseLayout
+  content={en}
+  title={en.meta.evidenceTitle}
+  description={en.meta.evidenceDescription}
+  route="/evidence/"><Evidence content={en} /></BaseLayout
+>

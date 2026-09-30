@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Privacy from '../../../components/Privacy.astro';
+import { ar } from '../../../content/ar';
+---
+
+<BaseLayout
+  content={ar}
+  title={ar.meta.privacyTitle}
+  description={ar.meta.privacyDescription}
+  route="/privacy/"><Privacy content={ar} /></BaseLayout
+>

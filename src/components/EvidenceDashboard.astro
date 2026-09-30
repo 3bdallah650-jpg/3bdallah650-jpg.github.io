@@ -1,0 +1,331 @@
+---
+import type { SiteContent } from '../content/schema';
+import { getPublicClaim } from '../data/claims';
+import '../styles/evidence.css';
+
+interface Props {
+  content: SiteContent;
+  compact?: boolean;
+  id?: string;
+}
+
+const { content: c, compact = false, id = 'evidence-dashboard' } = Astro.props;
+const locale = c.locale;
+const ar = locale === 'ar';
+const engineering = getPublicClaim('automated-tests');
+const gps = getPublicClaim('gps-evaluation');
+const hrv = getPublicClaim('hrv-evaluation');
+const imu = getPublicClaim('imu-pathway');
+const findMetric = (claim: typeof gps | typeof hrv | typeof engineering, metricId: string) =>
+  claim.metrics?.find((metric) => metric.id === metricId);
+const copy = {
+  en: {
+    title: 'WISAM Evidence Dashboard',
+    intro: 'Select a category to see what was tested, the result, and the limit of that result.',
+    select: 'Select evidence category',
+    categories: ['Engineering', 'GPS', 'HRV', 'IMU'],
+    label: 'Evidence class',
+    engineering: 'Engineering verification',
+    component: 'Component evaluation',
+    feasibility: 'Prototype / feasibility',
+    testRun: 'Reported verification run · 7 September 2026',
+    gpsDataset: 'GeoLife public mobility trajectories',
+    gpsTask: 'Heuristic abnormal-route labels; user-disjoint train/test split.',
+    hrvDataset: 'PhysioNet Apnea-ECG',
+    hrvTask: 'One-minute sleep-apnea proxy windows; two held-out test records.',
+    imuDataset: 'Synthetic scaffold data',
+    imuTask: 'Fall and gait pathway feasibility in the software prototype.',
+    dataset: 'Dataset & task',
+    boundary: 'What this means',
+    review: 'Evidence reviewed',
+    detail: 'Methods and limits',
+    testBreakdown: 'Backend/API + AI services',
+    scoreScale: 'Component task scores · scale 0–1',
+    prototypeFlow: ['Synthetic inputs', 'Motion pathway prototype', 'Field evaluation: future'],
+  },
+  ar: {
+    title: 'لوحة أدلة وسام',
+    intro: 'اختر فئة لترى ما اختُبر، وما كانت نتيجته، وما الذي لا تثبته تلك النتيجة.',
+    select: 'اختر فئة الأدلة',
+    categories: ['الهندسة', 'الموقع GPS', 'تباين النبض HRV', 'الحركة IMU'],
+    label: 'تصنيف الدليل',
+    engineering: 'تحقق هندسي',
+    component: 'تقييم مكوّن',
+    feasibility: 'نموذج أولي / جدوى',
+    testRun: 'جولة التحقق الموثقة · ٧ سبتمبر ٢٠٢٦',
+    gpsDataset: 'مسارات GeoLife العامة للحركة',
+    gpsTask: 'تسميات استدلالية لمسارات غير اعتيادية؛ فصل المستخدمين بين التدريب والاختبار.',
+    hrvDataset: 'PhysioNet Apnea-ECG',
+    hrvTask:
+      'نوافذ مدتها دقيقة لمهمة بديلة مرتبطة بانقطاع النفس؛ سجلّا اختبار مستبعدان من التدريب.',
+    imuDataset: 'بيانات اصطناعية تأسيسية',
+    imuTask: 'اختبار جدوى مسار السقوط والمشية في النموذج البرمجي الأولي.',
+    dataset: 'البيانات والمهمة',
+    boundary: 'ما الذي تعنيه النتيجة',
+    review: 'آخر مراجعة للأدلة',
+    detail: 'المنهج والحدود',
+    testBreakdown: 'الخادم وواجهة البرمجة + خدمات الذكاء الاصطناعي',
+    scoreScale: 'مقاييس مهمة المكوّن · مقياس من 0 إلى 1',
+    prototypeFlow: ['مدخلات اصطناعية', 'نموذج مسار الحركة', 'تقييم ميداني: مرحلة قادمة'],
+  },
+}[locale];
+const panels = [
+  { key: 'engineering', label: copy.categories[0] },
+  { key: 'gps', label: copy.categories[1] },
+  { key: 'hrv', label: copy.categories[2] },
+  { key: 'imu', label: copy.categories[3] },
+];
+---
+
+<section
+  class:list={['evidence-dashboard', compact && 'evidence-dashboard--compact']}
+  id={id}
+  data-evidence-dashboard
+>
+  <div class="evidence-dashboard__heading">
+    <div>
+      <p class="evidence-dashboard__eyebrow">WISAM / {c.nav.evidence}</p>
+      <h2>{copy.title}</h2>
+    </div>
+    <p>{copy.intro}</p>
+  </div>
+
+  <div class="evidence-dashboard__shell">
+    <div class="evidence-dashboard__tabs" role="tablist" aria-label={copy.select}>
+      {
+        panels.map((panel, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`${id}-tab-${panel.key}`}
+            aria-controls={`${id}-panel-${panel.key}`}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            tabindex={index === 0 ? 0 : -1}
+            data-evidence-tab
+          >
+            <span class="evidence-dashboard__tab-index" dir="ltr">
+              0{index + 1}
+            </span>
+            {panel.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <div
+      class="evidence-dashboard__panel"
+      id={`${id}-panel-engineering`}
+      role="tabpanel"
+      aria-labelledby={`${id}-tab-engineering`}
+      tabindex="0"
+      data-evidence-panel
+    >
+      <div class="evidence-dashboard__panel-top">
+        <span class="evidence-dashboard__class">{copy.label} / {copy.engineering}</span>
+        <span class="evidence-dashboard__date">{copy.testRun}</span>
+      </div>
+      <div class="evidence-dashboard__engineering-visual">
+        <div class="evidence-dashboard__big-number">
+          <strong dir="ltr">{findMetric(engineering, 'total')?.value}</strong>
+          <span>{findMetric(engineering, 'total')?.label[locale]}</span>
+        </div>
+        <div class="evidence-dashboard__split" aria-hidden="true"><span>45 / 27</span></div>
+      </div>
+      <div class="evidence-dashboard__metric-row evidence-dashboard__metric-row--two">
+        {
+          ['backend', 'ai'].map((key) => {
+            const metric = findMetric(engineering, key);
+            return (
+              metric && (
+                <div>
+                  <>
+                    <strong dir="ltr">{metric.value}</strong>
+                    <span>{metric.label[locale]}</span>
+                  </>
+                </div>
+              )
+            );
+          })
+        }
+      </div>
+      <div class="evidence-dashboard__context">
+        <span>{copy.boundary}</span>
+        <p>{engineering.evidenceScope[locale]} {engineering.requiredQualifier[locale]}</p>
+      </div>
+    </div>
+
+    <div
+      class="evidence-dashboard__panel"
+      id={`${id}-panel-gps`}
+      role="tabpanel"
+      aria-labelledby={`${id}-tab-gps`}
+      tabindex="0"
+      data-evidence-panel
+    >
+      <div class="evidence-dashboard__panel-top">
+        <span class="evidence-dashboard__class">{copy.label} / {copy.component}</span>
+        <span class="evidence-dashboard__date"
+          >{copy.review} <time datetime={gps.lastVerified} dir="ltr">{gps.lastVerified}</time></span
+        >
+      </div>
+      <div class="evidence-dashboard__chart-layout">
+        <figure class="evidence-dashboard__bar-chart">
+          <figcaption>{copy.scoreScale}</figcaption>
+          {
+            ['precision', 'recall', 'f1'].map((key) => {
+              const metric = findMetric(gps, key);
+              return (
+                metric && (
+                  <div class="evidence-dashboard__bar-row">
+                    <span>{metric.label[locale]}</span>
+                    <div class="evidence-dashboard__bar-rail" aria-hidden="true">
+                      <i style={`--bar-fill: ${Number(metric.value) * 100}%`} />
+                    </div>
+                    <strong dir="ltr">{metric.value}</strong>
+                  </div>
+                )
+              );
+            })
+          }
+        </figure>
+        <div class="evidence-dashboard__sample">
+          <strong dir="ltr">{findMetric(gps, 'trajectories')?.value}</strong>
+          <span>{findMetric(gps, 'trajectories')?.label[locale]}</span>
+        </div>
+      </div>
+      <div class="evidence-dashboard__context-grid">
+        <div><span>{copy.dataset}</span><p>{copy.gpsDataset}. {copy.gpsTask}</p></div>
+        <div><span>{copy.boundary}</span><p>{gps.requiredQualifier[locale]}</p></div>
+      </div>
+    </div>
+
+    <div
+      class="evidence-dashboard__panel"
+      id={`${id}-panel-hrv`}
+      role="tabpanel"
+      aria-labelledby={`${id}-tab-hrv`}
+      tabindex="0"
+      data-evidence-panel
+    >
+      <div class="evidence-dashboard__panel-top">
+        <span class="evidence-dashboard__class">{copy.label} / {copy.component}</span>
+        <span class="evidence-dashboard__date"
+          >{copy.review} <time datetime={hrv.lastVerified} dir="ltr">{hrv.lastVerified}</time></span
+        >
+      </div>
+      <div class="evidence-dashboard__chart-layout">
+        <figure class="evidence-dashboard__bar-chart">
+          <figcaption>{copy.scoreScale}</figcaption>
+          {
+            ['roc-auc', 'precision', 'recall', 'f1'].map((key) => {
+              const metric = findMetric(hrv, key);
+              return (
+                metric && (
+                  <div class="evidence-dashboard__bar-row">
+                    <span>{metric.label[locale]}</span>
+                    <div class="evidence-dashboard__bar-rail" aria-hidden="true">
+                      <i style={`--bar-fill: ${Number(metric.value) * 100}%`} />
+                    </div>
+                    <strong dir="ltr">{metric.value}</strong>
+                  </div>
+                )
+              );
+            })
+          }
+        </figure>
+        <div class="evidence-dashboard__sample">
+          <strong dir="ltr">{findMetric(hrv, 'windows')?.value}</strong>
+          <span>{findMetric(hrv, 'windows')?.label[locale]}</span>
+        </div>
+      </div>
+      <div class="evidence-dashboard__context-grid">
+        <div><span>{copy.dataset}</span><p>{copy.hrvDataset}. {copy.hrvTask}</p></div>
+        <div><span>{copy.boundary}</span><p>{hrv.requiredQualifier[locale]}</p></div>
+      </div>
+    </div>
+
+    <div
+      class="evidence-dashboard__panel"
+      id={`${id}-panel-imu`}
+      role="tabpanel"
+      aria-labelledby={`${id}-tab-imu`}
+      tabindex="0"
+      data-evidence-panel
+    >
+      <div class="evidence-dashboard__panel-top">
+        <span class="evidence-dashboard__class">{copy.label} / {copy.feasibility}</span>
+        <span class="evidence-dashboard__date"
+          >{copy.review} <time datetime={imu.lastVerified} dir="ltr">{imu.lastVerified}</time></span
+        >
+      </div>
+      <div class="evidence-dashboard__imu-statement">{imu.publicText[locale]}</div>
+      <div class="evidence-dashboard__prototype-flow" aria-hidden="true">
+        {
+          copy.prototypeFlow.map((step, index) => (
+            <span>
+              <i>0{index + 1}</i>
+              {step}
+            </span>
+          ))
+        }
+      </div>
+      <div class="evidence-dashboard__context-grid">
+        <div><span>{copy.dataset}</span><p>{copy.imuDataset}. {copy.imuTask}</p></div>
+        <div>
+          <span>{copy.boundary}</span><p>
+            {imu.evidenceScope[locale]}
+            {imu.requiredQualifier[locale]}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {
+    compact && (
+      <a class="evidence-dashboard__detail-link" href={ar ? '/ar/evidence/' : '/evidence/'}>
+        {copy.detail} <span aria-hidden="true">↗</span>
+      </a>
+    )
+  }
+</section>
+
+<script>
+  for (const dashboard of document.querySelectorAll<HTMLElement>('[data-evidence-dashboard]')) {
+    dashboard.classList.add('is-enhanced');
+    const tabs = [...dashboard.querySelectorAll<HTMLButtonElement>('[data-evidence-tab]')];
+    const panels = [...dashboard.querySelectorAll<HTMLElement>('[data-evidence-panel]')];
+    const activate = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+        const panel = panels[i];
+        if (panel) {
+          panel.classList.remove('is-chart-visible');
+          panel.hidden = i !== index;
+          if (i === index) requestAnimationFrame(() => panel.classList.add('is-chart-visible'));
+        }
+      });
+      if (focus) tabs[index]?.focus();
+    };
+    activate(0);
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        const direction = document.documentElement.dir === 'rtl' ? -1 : 1;
+        const next =
+          event.key === 'ArrowRight'
+            ? index + direction
+            : event.key === 'ArrowLeft'
+              ? index - direction
+              : event.key === 'Home'
+                ? 0
+                : event.key === 'End'
+                  ? tabs.length - 1
+                  : null;
+        if (next === null) return;
+        event.preventDefault();
+        activate((next + tabs.length) % tabs.length, true);
+      });
+    });
+  }
+</script>

@@ -1,0 +1,258 @@
+---
+import type { SiteContent } from '../content/schema';
+import { getPublicClaim } from '../data/claims';
+import EvidenceDashboard from './EvidenceDashboard.astro';
+import '../styles/evidence.css';
+
+interface Props {
+  content: SiteContent;
+}
+const { content: c } = Astro.props;
+const locale = c.locale;
+const ar = locale === 'ar';
+const pipeline = getPublicClaim('end-to-end-pipeline');
+const caregiver = getPublicClaim('caregiver-prototype');
+const responder = getPublicClaim('responder-prototype');
+const telemetry = getPublicClaim('simulated-telemetry');
+const gps = getPublicClaim('gps-evaluation');
+const hrv = getPublicClaim('hrv-evaluation');
+const imu = getPublicClaim('imu-pathway');
+const copy = {
+  en: {
+    eyebrow: 'Evidence / current stage',
+    title: 'What did we build, and how did we test it?',
+    lead: 'WISAM connects signal processing, safety logic, and demonstration caregiver and responder screens. We ran automated software tests and evaluated GPS and HRV on separate public-data tasks. This page explains the results and what can be learned from them.',
+    status: 'Technical evidence · Stage 3 of 6',
+    builtEyebrow: '01 / What is built',
+    builtTitle: 'A working software path from signals to screens.',
+    builtIntro:
+      'The software receives signals, combines component results, and displays status and alerts in demonstration caregiver and responder interfaces.',
+    builtLabels: ['Software pipeline', 'Caregiver interface', 'Responder flow'],
+    prototypeStatus: 'Prototype',
+    evaluatedStatus: 'Component evaluation',
+    builtNote:
+      'Current end-to-end demonstrations use simulated wearable telemetry and demonstration data.',
+    evaluatedEyebrow: '02 / What has been evaluated',
+    evaluatedTitle: 'GPS and HRV were tested separately.',
+    evaluatedIntro:
+      'GPS was tested on routes with heuristic labels; HRV was tested on one-minute sleep-apnea windows. Neither task measures dementia wandering or the effectiveness of the full product.',
+    dashboardEyebrow: '04 / Results',
+    methodsEyebrow: '03 / How we evaluated the components',
+    methodsTitle: 'The task behind each number',
+    methods: [
+      {
+        title: 'GPS · GeoLife',
+        target: 'Target: heuristic abnormal-route labels on public mobility trajectories.',
+      },
+      {
+        title: 'HRV · PhysioNet Apnea-ECG',
+        target: 'Target: apnea labels used as a proxy anomaly task on one-minute HRV windows.',
+      },
+      {
+        title: 'IMU · feasibility only',
+        target: 'Synthetic scaffold data exercise the fall and gait software path.',
+      },
+    ],
+    limitsEyebrow: '05 / What this does not prove',
+    limitsTitle: 'These results do not yet show:',
+    limitsIntro:
+      'A technical result for one component is not a clinical result for the whole service.',
+    limits: [
+      'Clinical effectiveness for people living with dementia',
+      'Prospectively validated wandering prediction',
+      'Production smartwatch deployment performance',
+      'Reduced caregiver burden',
+      'Reduced adverse events',
+    ],
+    nextEyebrow: '06 / Next validation stage',
+    nextTitle: 'The next test requires a real wearable.',
+    nextBody:
+      'First, connect and assess a physical wearable. Then design a controlled pilot with partners and appropriate approvals to measure reliability, alerts, usability, and the caregiver workflow. These stages are still ahead.',
+    nextLink: 'Explore research collaboration',
+    review: 'Source review',
+  },
+  ar: {
+    eyebrow: 'الأدلة / المرحلة الحالية',
+    title: 'ما الذي بنيناه، وكيف اختبرناه؟',
+    lead: 'يربط وسام معالجة الإشارات وقواعد السلامة بواجهات تجريبية لمقدّم الرعاية والمستجيب. أجرينا اختبارات آلية للبرنامج، وقيّمنا مكوّنَي GPS وHRV كلًّا في مهمة منفصلة على بيانات عامة. هنا نوضح النتائج وما يمكن استنتاجه منها.',
+    status: 'أدلة تقنية · المرحلة ٣ من ٦',
+    builtEyebrow: '٠١ / ما الذي بُني',
+    builtTitle: 'مسار برمجي عامل من الإشارة إلى الواجهة.',
+    builtIntro:
+      'يستقبل البرنامج الإشارات، ويجمع نتائج المكوّنات، ويعرض الحالة والتنبيهات في واجهات تجريبية لمقدّم الرعاية والمستجيب.',
+    builtLabels: ['المسار البرمجي', 'واجهة مقدّم الرعاية', 'مسار المستجيب'],
+    prototypeStatus: 'نموذج أولي',
+    evaluatedStatus: 'تقييم مكوّن',
+    builtNote:
+      'تستخدم العروض الحالية للمسار الكامل إشارات جهاز قابل للارتداء مُحاكاة وبيانات عرض توضيحي.',
+    evaluatedEyebrow: '٠٢ / ما الذي قُيّم',
+    evaluatedTitle: 'اختبرنا GPS وHRV كلًّا على حدة.',
+    evaluatedIntro:
+      'اختُبر الموقع على مسارات ذات تسميات استدلالية، واختُبر تباين النبض على نوافذ مدتها دقيقة من بيانات انقطاع النفس أثناء النوم. ولا تقيس المهمتان تجوّل المصابين بالخرف أو فاعلية المنتج الكامل.',
+    dashboardEyebrow: '٠٤ / النتائج',
+    methodsEyebrow: '٠٣ / كيف قيّمنا المكوّنات',
+    methodsTitle: 'المهمة وراء كل رقم',
+    methods: [
+      {
+        title: 'الموقع GPS · GeoLife',
+        target: 'المهمة: تسميات استدلالية للمسارات غير الاعتيادية ضمن بيانات حركة عامة.',
+      },
+      {
+        title: 'تباين النبض HRV · PhysioNet Apnea-ECG',
+        target:
+          'المهمة: تسميات انقطاع النفس بوصفها مهمة بديلة لرصد الشذوذ في نوافذ تباين النبض مدة دقيقة.',
+      },
+      {
+        title: 'الحركة IMU · جدوى فقط',
+        target: 'تختبر بيانات اصطناعية تأسيسية مسار السقوط والمشية برمجيًا.',
+      },
+    ],
+    limitsEyebrow: '٠٥ / ما الذي لا تثبته الأدلة',
+    limitsTitle: 'هذه النتائج لا تثبت بعد:',
+    limitsIntro: 'نجاح مكوّن في مهمة تقنية لا يعني نجاح الخدمة الكاملة سريريًا.',
+    limits: [
+      'الفاعلية السريرية للمصابين بالخرف',
+      'التنبؤ بتجوّلهم بتحقق استباقي',
+      'أداء نشر ساعة ذكية فعلية في بيئة تشغيل',
+      'خفض عبء مقدّمي الرعاية',
+      'خفض الأحداث الضارة',
+    ],
+    nextEyebrow: '٠٦ / مرحلة التحقق التالية',
+    nextTitle: 'الاختبار القادم يحتاج إلى جهاز فعلي.',
+    nextBody:
+      'نحتاج أولًا إلى ربط جهاز فعلي وتقييمه، ثم تصميم تجربة منضبطة مع شركاء وموافقات مناسبة لقياس الموثوقية والتنبيهات وقابلية الاستخدام وسير عمل مقدّم الرعاية. هذه مراحل قادمة.',
+    nextLink: 'استكشف التعاون البحثي',
+    review: 'مراجعة المصادر',
+  },
+}[locale];
+const built = [pipeline, caregiver, responder];
+const evaluated = [gps, hrv, imu];
+---
+
+<section class="evidence-page-hero">
+  <div class="container evidence-page-hero__grid">
+    <div>
+      <p class="evidence-page-hero__eyebrow">{copy.eyebrow}</p><h1>{copy.title}</h1><p
+        class="evidence-page-hero__lead"
+      >
+        {copy.lead}
+      </p>
+    </div>
+    <aside class="evidence-page-hero__aside" aria-label={copy.status}>
+      <span class="evidence-page-hero__signal" aria-hidden="true"></span><strong
+        >{copy.status}</strong
+      ><p>{telemetry.publicText[locale]}</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section evidence-page-built" id="built">
+  <div class="container">
+    <header class="evidence-page-section-head">
+      <p class="eyebrow">{copy.builtEyebrow}</p><h2>{copy.builtTitle}</h2><p>{copy.builtIntro}</p>
+    </header>
+    <div class="evidence-page-built__list">
+      {
+        built.map((claim, index) => (
+          <article>
+            <>
+              <span class="evidence-page-built__index" dir="ltr">
+                0{index + 1}
+              </span>
+              <div>
+                <>
+                  <h3>{copy.builtLabels[index]}</h3>
+                  <p>{claim.publicText[locale]}</p>
+                  <p class="evidence-page-built__qualifier">
+                    {claim.id === 'end-to-end-pipeline'
+                      ? claim.requiredQualifier[locale]
+                      : claim.evidenceScope[locale]}
+                  </p>
+                </>
+              </div>
+              <span class="evidence-page-built__status">{copy.prototypeStatus}</span>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section evidence-page-evaluated" id="evaluated">
+  <div class="container evidence-page-evaluated__grid">
+    <div><p class="eyebrow">{copy.evaluatedEyebrow}</p><h2>{copy.evaluatedTitle}</h2></div><p>
+      {copy.evaluatedIntro}
+    </p>
+  </div>
+</section>
+
+<section class="section evidence-page-methods" id="methods">
+  <div class="container">
+    <header class="evidence-page-section-head">
+      <p class="eyebrow">{copy.methodsEyebrow}</p><h2>{copy.methodsTitle}</h2>
+    </header><div class="evidence-page-methods__grid">
+      {
+        copy.methods.map((method, index) => (
+          <article>
+            <>
+              <span class="evidence-page-methods__index" dir="ltr">
+                0{index + 1} / {index === 2 ? copy.prototypeStatus : copy.evaluatedStatus}
+              </span>
+              <h3>{method.title}</h3>
+              <p>{method.target}</p>
+              <p>{evaluated[index]?.evidenceScope[locale]}</p>
+              <p class="evidence-page-methods__qualifier">
+                {evaluated[index]?.requiredQualifier[locale]}
+              </p>
+            </>
+          </article>
+        ))
+      }
+    </div><p class="evidence-page-methods__review">
+      {copy.review}: <time datetime={gps.lastVerified} dir="ltr">{gps.lastVerified}</time> · {
+        gps.sourceRefs[0]?.label
+      } · {hrv.sourceRefs[0]?.label}
+    </p>
+  </div>
+</section>
+
+<section class="section evidence-page-dashboard-section" id="dashboard">
+  <div class="container">
+    <p class="eyebrow">{copy.dashboardEyebrow}</p><EvidenceDashboard
+      content={c}
+      id="evidence-page-dashboard"
+    />
+  </div>
+</section>
+
+<section class="section evidence-page-limits" id="limits">
+  <div class="container evidence-page-limits__grid">
+    <div>
+      <p class="eyebrow">{copy.limitsEyebrow}</p><h2>{copy.limitsTitle}</h2><p>
+        {copy.limitsIntro}
+      </p>
+    </div><ul>
+      {
+        copy.limits.map((item, index) => (
+          <li>
+            <span dir="ltr">0{index + 1}</span>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section evidence-page-next" id="next-validation">
+  <div class="container evidence-page-next__grid">
+    <div><p class="eyebrow">{copy.nextEyebrow}</p><h2>{copy.nextTitle}</h2></div><div>
+      <p>{copy.nextBody}</p><a
+        class="evidence-page-next__link"
+        href={ar ? '/ar/partners/research/' : '/partners/research/'}
+        >{copy.nextLink} <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </div>
+</section>

@@ -1,0 +1,615 @@
+---
+import type { Locale } from '../content/schema';
+import {
+  partnershipCopy as copy,
+  partnershipEmail,
+  partnershipHref,
+  localized,
+} from '../content/partners';
+import type { PartnerPage } from '../content/partners';
+import { getPublicClaim } from '../data/claims';
+import '../styles/partners.css';
+
+interface Props {
+  locale: Locale;
+  page: PartnerPage;
+}
+
+const { locale, page } = Astro.props;
+const ar = locale === 'ar';
+const t = (pair: { en: string; ar: string }) => localized(pair, locale);
+const common = copy.common;
+const hub = copy.hub;
+const investment = copy.investment;
+const research = copy.research;
+const organizations = copy.organizations;
+const pageCopy = copy[page];
+const prototype = getPublicClaim('prototype-status');
+const simulated = getPublicClaim('simulated-telemetry');
+const wearable = getPublicClaim('wearable-integration');
+const pilot = getPublicClaim('supervised-pilot');
+const commercial = getPublicClaim('planned-commercial-model');
+const evidenceHref = ar ? '/ar/evidence/' : '/evidence/';
+const plansHref = ar ? '/ar/plans/' : '/plans/';
+const email = (kind: 'general' | 'investment' | 'research' | 'pilot' | 'technology') => {
+  const subjects = ar
+    ? {
+        general: 'استفسار شراكة مع WISAM',
+        investment: 'استفسار استثماري بشأن WISAM',
+        research: 'تعاون بحثي مع WISAM',
+        pilot: 'شراكة تجربة ميدانية مع WISAM',
+        technology: 'شراكة تقنية مع WISAM',
+      }
+    : {
+        general: 'WISAM Partnership Inquiry',
+        investment: 'WISAM Investment Inquiry',
+        research: 'WISAM Research Collaboration',
+        pilot: 'WISAM Pilot Partnership',
+        technology: 'WISAM Technology Partnership',
+      };
+  return partnershipEmail(subjects[kind]);
+};
+---
+
+<div class="partners-page">
+  <section
+    class:list={[
+      'partners-hero',
+      { 'partners-hero-dark': page === 'investment' || page === 'organizations' },
+    ]}
+  >
+    <div class="container partners-hero-grid">
+      <div class="partners-hero-copy">
+        <p class="partners-kicker">{t(pageCopy.eyebrow)}</p>
+        <h1>{t(pageCopy.title)}</h1>
+        <p class="partners-hero-lead">{t(pageCopy.lead)}</p>
+        <p class="partners-status"><span aria-hidden="true"></span>{t(common.status)}</p>
+        <div class="partners-hero-actions">
+          <a
+            class="partners-action partners-action-primary"
+            href={page === 'hub' ? '#paths' : '#contact'}
+          >
+            {
+              page === 'hub'
+                ? ar
+                  ? 'استكشف مسارات الشراكة'
+                  : 'Explore partnership paths'
+                : t(common.contact)
+            }
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a class="partners-action partners-action-text" href={evidenceHref}
+            >{t(common.evidence)} <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+      {
+        (page === 'hub' || page === 'research') && (
+          <figure class="partners-hero-visual">
+            <img
+              src={
+                page === 'hub' ? '/media/story-caregiver.webp' : '/media/story-neighborhood.webp'
+              }
+              alt={
+                page === 'hub'
+                  ? ar
+                    ? 'مشهد توضيحي لابنة سعودية تتفقد هاتفها بهدوء في المنزل'
+                    : 'Illustrative scene of an adult Saudi daughter calmly checking a phone at home'
+                  : ar
+                    ? 'مشهد توضيحي لرجل سعودي كبير في السن يسير في حي مألوف'
+                    : 'Illustrative scene of an older Saudi man walking in a familiar neighborhood'
+              }
+              width="1280"
+              height="960"
+              loading="eager"
+              decoding="async"
+            />
+            <figcaption>{t(common.illustration)}</figcaption>
+          </figure>
+        )
+      }
+      {
+        (page === 'investment' || page === 'organizations') && (
+          <div class="partners-hero-signal" aria-hidden="true">
+            <>
+              <span class="signal-track" />
+              <span class="signal-node signal-node-one" />
+              <span class="signal-node signal-node-two" />
+              <span class="signal-node signal-node-three" />
+            </>
+            <span class="signal-caption">WISAM / 03—06</span>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    page === 'hub' && (
+      <>
+        <section class="partners-section partners-path-section" id="paths">
+          <div class="container">
+            <div class="partners-section-heading">
+              <p class="partners-kicker">01 / {ar ? 'مسارات الشراكة' : 'Partnership paths'}</p>
+              <h2>{t(hub.routesTitle)}</h2>
+              <p>{t(hub.routesLead)}</p>
+            </div>
+            <div class="partners-path-list">
+              {hub.paths.map((item, index) => (
+                <a class="partners-path" href={partnershipHref(item.destination, locale)}>
+                  <span class="partners-path-number" dir="ltr">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span class="partners-path-main">
+                    <strong>{t(item.title)}</strong>
+                    <span>{t(item.body)}</span>
+                  </span>
+                  <span class="partners-path-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section class="partners-section partners-phase-section">
+          <div class="container">
+            <div class="partners-section-heading">
+              <>
+                <p class="partners-kicker">
+                  02 / {ar ? 'مرحلة التطوير' : 'The development sequence'}
+                </p>
+                <h2>{t(hub.phaseTitle)}</h2>
+              </>
+            </div>
+            <div class="partners-phase-list">
+              {hub.phase.map((item, index) => (
+                <article>
+                  <span dir="ltr">0{index + 1}</span>
+                  <h3>{t(item.title)}</h3>
+                  <p>{t(item.body)}</p>
+                </article>
+              ))}
+            </div>
+            <p class="partners-phase-note">
+              {wearable.publicText[locale]} {pilot.publicText[locale]}
+            </p>
+          </div>
+        </section>
+        <section class="partners-section partners-proof-section">
+          <div class="container partners-proof-grid">
+            <div>
+              <>
+                <p class="partners-kicker">03 / {ar ? 'الوضع الحالي' : 'Where WISAM stands'}</p>
+                <h2>{ar ? 'ما الذي يعمل اليوم؟' : 'What works today?'}</h2>
+              </>
+            </div>
+            <div>
+              <>
+                <p>{prototype.publicText[locale]}</p>
+                <p>{simulated.publicText[locale]}</p>
+                <a href={evidenceHref}>
+                  {t(common.evidence)} <span aria-hidden="true">↗</span>
+                </a>
+              </>
+            </div>
+          </div>
+        </section>
+        <section class="partners-contact-section" id="contact">
+          <div class="container partners-contact-inner">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">04 / {ar ? 'ابدأ الحوار' : 'Start a conversation'}</p>
+                  <h2>{t(hub.ctaTitle)}</h2>
+                  <p>{t(hub.ctaBody)}</p>
+                </>
+              </div>
+              <a class="partners-action partners-action-primary" href={email('general')}>
+                {t(common.contact)} <span aria-hidden="true">↗</span>
+              </a>
+            </>
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  {
+    page === 'investment' && (
+      <>
+        <section class="partners-section partners-thesis-section">
+          <div class="container partners-editorial-grid">
+            <div class="partners-section-heading">
+              <>
+                <p class="partners-kicker">
+                  01 / {ar ? 'الفكرة الاستثمارية' : 'Investment thesis'}
+                </p>
+                <h2>{t(investment.thesisTitle)}</h2>
+                <p>{t(investment.thesisLead)}</p>
+              </>
+            </div>
+            <div class="partners-stacked-list">
+              {investment.pillars.map((item, index) => (
+                <article>
+                  <span dir="ltr">0{index + 1}</span>
+                  <div>
+                    <h3>{t(item.title)}</h3>
+                    <p>{t(item.body)}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section class="partners-section partners-scale-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">02 / {ar ? 'النموذج' : 'The model'}</p>
+                  <h2>{t(investment.scaleTitle)}</h2>
+                  <p>{t(investment.scaleLead)}</p>
+                </>
+              </div>
+              <div class="partners-three-columns">
+                {investment.scale.map((item, index) => (
+                  <article>
+                    <span dir="ltr">0{index + 1}</span>
+                    <h3>{t(item.title)}</h3>
+                    <p>{t(item.body)}</p>
+                  </article>
+                ))}
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-commercial-section">
+          <div class="container partners-two-panel">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">03 / {ar ? 'النموذج التجاري' : 'Commercial model'}</p>
+                  <h2>{t(investment.commercialTitle)}</h2>
+                  <p>{t(investment.commercialBody)}</p>
+                  <p class="partners-phase-note">{commercial.requiredQualifier[locale]}</p>
+                  <a href={plansHref}>
+                    {ar ? 'استكشف نموذج الباقات' : 'Explore the planned plans'}{' '}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </>
+              </div>
+              <div>
+                <>
+                  <p class="partners-kicker">{ar ? 'حدود الأدلة' : 'Evidence boundary'}</p>
+                  <h2>{t(investment.evidenceTitle)}</h2>
+                  <p>{t(investment.evidenceBody)}</p>
+                  <a href={evidenceHref}>
+                    {t(common.evidence)} <span aria-hidden="true">↗</span>
+                  </a>
+                </>
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-unlocks-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">
+                    04 / {ar ? 'ما الذي تتيحه الشراكة' : 'What support unlocks'}
+                  </p>
+                  <h2>{t(investment.unlockTitle)}</h2>
+                </>
+              </div>
+              <div class="partners-two-by-two">
+                {investment.unlocks.map((item, index) => (
+                  <article>
+                    <span dir="ltr">0{index + 1}</span>
+                    <h3>{t(item.title)}</h3>
+                    <p>{t(item.body)}</p>
+                  </article>
+                ))}
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-milestones-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">
+                    05 / {ar ? 'رأس المال والمراحل' : 'Capital to milestones'}
+                  </p>
+                  <h2>{t(investment.milestonesTitle)}</h2>
+                </>
+              </div>
+              <ol>
+                {investment.milestones.map((item) => (
+                  <li>
+                    <h3>{t(item.title)}</h3>
+                    <p>{t(item.body)}</p>
+                  </li>
+                ))}
+              </ol>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-audience-section">
+          <div class="container partners-editorial-grid">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">06 / {ar ? 'الشركاء' : 'The right partners'}</p>
+                  <h2>{t(investment.audienceTitle)}</h2>
+                </>
+              </div>
+              <p>{t(investment.audience)}</p>
+            </>
+          </div>
+        </section>
+        <section class="partners-contact-section" id="contact">
+          <div class="container partners-contact-inner">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">07 / {ar ? 'حوار المستثمرين' : 'Investor access'}</p>
+                  <h2>{t(investment.accessTitle)}</h2>
+                  <p>{t(investment.accessBody)}</p>
+                </>
+              </div>
+              <a class="partners-action partners-action-primary" href={email('investment')}>
+                {t(common.contact)} <span aria-hidden="true">↗</span>
+              </a>
+            </>
+          </div>
+          <div class="container">
+            <p class="partners-legal">{t(investment.legal)}</p>
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  {
+    page === 'research' && (
+      <>
+        <section class="partners-section partners-questions-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">01 / {ar ? 'أسئلة البحث' : 'Research questions'}</p>
+                  <h2>{t(research.questionsTitle)}</h2>
+                  <p>{t(research.questionsLead)}</p>
+                </>
+              </div>
+              <div class="partners-question-list">
+                {research.questions.map((item, index) => (
+                  <article>
+                    <span dir="ltr">{String(index + 1).padStart(2, '0')}</span>
+                    <h3>{t(item.title)}</h3>
+                    <p>{t(item.body)}</p>
+                  </article>
+                ))}
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-pilot-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">02 / {ar ? 'تصور التجربة' : 'A proposed pilot'}</p>
+                  <h2>{t(research.pilotTitle)}</h2>
+                  <p>{t(research.pilotLead)}</p>
+                </>
+              </div>
+              <ol class="partners-pilot-steps">
+                {research.pilot.map((item, index) => (
+                  <li>
+                    <span dir="ltr">0{index + 1}</span>
+                    <h3>{t(item.title)}</h3>
+                    <p>{t(item.body)}</p>
+                  </li>
+                ))}
+              </ol>
+              <p class="partners-phase-note">{pilot.requiredQualifier[locale]}</p>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-contribution-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">03 / {ar ? 'توزيع الأدوار' : 'Shared work'}</p>
+                  <h2>{t(research.contributionTitle)}</h2>
+                </>
+              </div>
+              <div class="partners-two-panel">
+                <>
+                  <div>
+                    <>
+                      <h3>{t(research.wisamTitle)}</h3>
+                      <ul>
+                        {research.wisam.map((item) => (
+                          <li>{t(item)}</li>
+                        ))}
+                      </ul>
+                    </>
+                  </div>
+                  <div>
+                    <>
+                      <h3>{t(research.partnerTitle)}</h3>
+                      <ul>
+                        {research.partner.map((item) => (
+                          <li>{t(item)}</li>
+                        ))}
+                      </ul>
+                    </>
+                  </div>
+                </>
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-funding-section">
+          <div class="container partners-editorial-grid">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">04 / {ar ? 'تمويل البحث' : 'Funding pathways'}</p>
+                  <h2>{t(research.fundingTitle)}</h2>
+                </>
+              </div>
+              <p>{t(research.fundingBody)}</p>
+            </>
+          </div>
+        </section>
+        <section class="partners-contact-section" id="contact">
+          <div class="container partners-contact-inner">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">05 / {ar ? 'ابدأ دراسة' : 'Start a study'}</p>
+                  <h2>{t(research.ctaTitle)}</h2>
+                  <p>{t(research.ctaBody)}</p>
+                </>
+              </div>
+              <div class="partners-contact-options">
+                <>
+                  <a class="partners-action partners-action-primary" href={email('research')}>
+                    {ar ? 'تعاون بحثي' : 'Research collaboration'} <span aria-hidden="true">↗</span>
+                  </a>
+                  <a class="partners-action partners-action-outline" href={email('pilot')}>
+                    {ar ? 'شراكة تجربة ميدانية' : 'Pilot partnership'}{' '}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </>
+              </div>
+            </>
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  {
+    page === 'organizations' && (
+      <>
+        <section class="partners-section partners-organization-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">
+                    01 / {ar ? 'من يمكنه المشاركة' : 'Who can collaborate'}
+                  </p>
+                  <h2>{t(organizations.audienceTitle)}</h2>
+                </>
+              </div>
+              <div class="partners-organization-list">
+                {organizations.audiences.map((item, index) => (
+                  <article>
+                    <span dir="ltr">0{index + 1}</span>
+                    <h3>{t(item.title)}</h3>
+                    <p>{t(item.body)}</p>
+                  </article>
+                ))}
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-structure-section">
+          <div class="container partners-editorial-grid">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">
+                    02 / {ar ? 'صيغ التعاون' : 'Partnership structures'}
+                  </p>
+                  <h2>{t(organizations.structuresTitle)}</h2>
+                  <p>{t(organizations.structuresLead)}</p>
+                </>
+              </div>
+              <ol>
+                {organizations.structures.map((item, index) => (
+                  <li>
+                    <span dir="ltr">0{index + 1}</span>
+                    <strong>{t(item)}</strong>
+                  </li>
+                ))}
+              </ol>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-measure-section">
+          <div class="container">
+            <>
+              <div class="partners-section-heading">
+                <>
+                  <p class="partners-kicker">03 / {ar ? 'القياس' : 'What we measure'}</p>
+                  <h2>{t(organizations.measureTitle)}</h2>
+                  <p>{t(organizations.measureLead)}</p>
+                </>
+              </div>
+              <ul>
+                {organizations.measures.map((item) => (
+                  <li>{t(item)}</li>
+                ))}
+              </ul>
+            </>
+          </div>
+        </section>
+        <section class="partners-section partners-governance-section">
+          <div class="container partners-editorial-grid">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">04 / {ar ? 'الحوكمة' : 'Governance'}</p>
+                  <h2>{t(organizations.governanceTitle)}</h2>
+                </>
+              </div>
+              <div>
+                <>
+                  <p>{t(organizations.governance)}</p>
+                  <a href={evidenceHref}>
+                    {t(common.evidence)} <span aria-hidden="true">↗</span>
+                  </a>
+                </>
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="partners-contact-section" id="contact">
+          <div class="container partners-contact-inner">
+            <>
+              <div>
+                <>
+                  <p class="partners-kicker">05 / {ar ? 'ابدأ التعاون' : 'Start collaboration'}</p>
+                  <h2>{t(organizations.ctaTitle)}</h2>
+                  <p>{t(organizations.ctaBody)}</p>
+                </>
+              </div>
+              <div class="partners-contact-options">
+                <>
+                  <a class="partners-action partners-action-primary" href={email('general')}>
+                    {t(common.contact)} <span aria-hidden="true">↗</span>
+                  </a>
+                  <a class="partners-action partners-action-outline" href={email('technology')}>
+                    {ar ? 'شراكة تقنية' : 'Technology partnership'}{' '}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </>
+              </div>
+            </>
+          </div>
+        </section>
+      </>
+    )
+  }
+</div>

@@ -1,0 +1,94 @@
+.partners-dropdown {
+  position: relative;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.partners-dropdown summary {
+  cursor: pointer;
+  list-style: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.partners-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+.partners-dropdown summary:hover,
+.partners-dropdown[open] summary {
+  color: var(--brand, #5b3aa4);
+}
+.partners-dropdown-panel {
+  position: absolute;
+  z-index: 100;
+  top: calc(100% + 10px);
+  inset-inline-start: -24px;
+  min-width: 295px;
+  padding: 10px;
+  background: #fffdf9;
+  border: 1px solid #d8cbdc;
+  border-radius: 14px;
+  box-shadow: 0 16px 35px rgba(33, 24, 42, 0.16);
+  white-space: normal;
+}
+.partners-dropdown-panel a {
+  display: block;
+  padding: 11px 13px;
+  line-height: 1.35;
+  border-radius: 8px;
+}
+.partners-dropdown-panel a:hover,
+.partners-dropdown-panel a:focus-visible {
+  background: #eee5f5;
+  color: #4c2e7a;
+}
+.partners-dropdown-panel a::after {
+  display: none;
+}
+@media (max-width: 1180px) {
+  .site-header .desktop-nav,
+  .site-header .desktop-cta {
+    display: none;
+  }
+  .site-header .mobile-menu {
+    display: block;
+    position: relative;
+  }
+  .site-header .header-actions {
+    margin-inline-start: auto;
+  }
+  .site-header .mobile-menu summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .site-header .mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .site-header .mobile-menu nav {
+    position: absolute;
+    z-index: 100;
+    top: 49px;
+    inset-inline-end: -7px;
+    width: min(330px, calc(100vw - 40px));
+    max-height: calc(100svh - 86px);
+    overflow-y: auto;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    box-shadow: 0 16px 35px rgba(37, 35, 32, 0.15);
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .site-header .mobile-menu nav a {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+}
