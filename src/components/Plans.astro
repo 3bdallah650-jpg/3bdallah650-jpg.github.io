@@ -234,7 +234,25 @@ const email = `mailto:wisam.sa.2030@gmail.com?subject=${encodeURIComponent(ar ? 
     </div><div class="plan-grid">
       {
         plans.map((plan, i) => (
-          <article class:list={['plan-card', { recommended: i === 2 }]}>
+          <article
+            class:list={[
+              'plan-card',
+              `plan-card--${plan.name.toLowerCase()}`,
+              { recommended: i === 2 },
+            ]}
+          >
+            <div class="plan-card-head">
+              <div class="plan-card-topline">
+                <span class="plan-index" dir="ltr">
+                  0{i + 1}
+                </span>
+                {plan.badge && <span class="recommend-badge">{plan.badge}</span>}
+              </div>
+              <h3 lang="en" dir="ltr">
+                {plan.name === 'Free' ? 'Free plan' : plan.name}
+              </h3>
+              <p>{plan.descriptor}</p>
+            </div>
             <div class="plan-price">
               <>
                 <strong>
@@ -420,59 +438,91 @@ const email = `mailto:wisam.sa.2030@gmail.com?subject=${encodeURIComponent(ar ? 
     align-items: stretch;
   }
   .plan-card {
+    --plan-accent: #60566d;
+    --plan-tint: #f2eff4;
     background: var(--sheet);
-    border: 1px solid #dcd3df;
-    border-radius: 19px;
-    padding: 22px 20px 25px;
+    border: 1px solid #ddd6e3;
+    border-radius: 22px;
+    padding: 24px 20px 28px;
     display: flex;
     flex-direction: column;
     min-width: 0;
+    box-shadow: 0 6px 20px #231b2b04;
+  }
+  .plan-card--essential {
+    --plan-accent: #4a5873;
+    --plan-tint: #eef1f6;
+  }
+  .plan-card--care {
+    --plan-accent: #602c9f;
+    --plan-tint: #eee3fc;
+  }
+  .plan-card--guardian {
+    --plan-accent: #454252;
+    --plan-tint: #edecf2;
   }
   .plan-card.recommended {
-    background: #f5effb;
-    border: 2px solid #69429f;
-    box-shadow: 0 18px 45px #5a387b1a;
-    transform: translateY(-9px);
+    background: #fcf9ff;
+    border: 2px solid var(--brand);
+    box-shadow: 0 18px 45px #602c9f14;
   }
   .plan-card-head {
-    min-height: 165px;
+    min-height: 145px;
+    margin: -24px -20px 0;
+    padding: 20px 20px 18px;
+    border-radius: 21px 21px 0 0;
+    background: var(--plan-tint);
+  }
+  .plan-card-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 25px;
   }
   .recommend-badge {
     display: inline-block;
-    background: #58338b;
+    background: var(--brand);
     color: white;
     border-radius: 99px;
-    padding: 5px 11px;
-    font-size: 0.69rem;
+    padding: 4px 10px;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 7px;
   }
   .plan-index {
-    display: block;
-    color: #7b598f;
-    font-size: 0.67rem;
-    letter-spacing: 0.08em;
+    color: var(--plan-accent);
+    font-size: 0.8rem;
     font-weight: 700;
   }
   .plan-card h3 {
-    font-size: 2rem;
-    margin: 7px 0 2px;
+    color: var(--plan-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-size: clamp(1.45rem, 2vw, 1.8rem);
+    line-height: 1.2;
+    margin: 13px 0 8px;
+    text-align: start;
+  }
+  :global(html[dir='rtl']) .plan-card h3 {
+    text-align: right;
   }
   .plan-card-head p {
-    color: #5d5661;
-    font-size: 0.9rem;
+    color: var(--body);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
   }
   .plan-price {
     display: flex;
     align-items: baseline;
     gap: 7px;
-    border-top: 1px solid #ddd1e5;
-    padding-top: 13px;
+    border-top: 0;
+    padding-top: 22px;
   }
   .plan-price strong {
     font-size: 2.6rem;
     line-height: 1.2;
-    color: #362347;
+    color: var(--plan-accent);
   }
   .plan-price span {
     font-size: 0.78rem;
@@ -498,7 +548,7 @@ const email = `mailto:wisam.sa.2030@gmail.com?subject=${encodeURIComponent(ar ? 
     flex: 1;
   }
   .plan-card li {
-    font-size: 0.79rem;
+    font-size: 0.86rem;
     line-height: 1.5;
     margin: 0 0 12px;
     padding-inline-start: 20px;
@@ -508,7 +558,7 @@ const email = `mailto:wisam.sa.2030@gmail.com?subject=${encodeURIComponent(ar ? 
     content: '✓';
     position: absolute;
     inset-inline-start: 0;
-    color: #674296;
+    color: var(--plan-accent);
     font-weight: 700;
   }
   .plan-limit {
@@ -572,7 +622,7 @@ const email = `mailto:wisam.sa.2030@gmail.com?subject=${encodeURIComponent(ar ? 
       min-height: 0;
     }
     .plan-card {
-      padding: 25px;
+      padding: 24px 20px 28px;
     }
     .plans-hero p {
       font-size: 1rem;

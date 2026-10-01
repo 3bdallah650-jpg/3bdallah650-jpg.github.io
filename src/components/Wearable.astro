@@ -15,6 +15,7 @@ const signals = ar
       ['نبض القلب وHRV', 'بيانات إضافية إذا أتاحها الجهاز'],
       ['الاتصال', 'هل وصلت الإشارة أم انقطعت؟'],
       ['الجهاز والبطارية', 'هل الجهاز يعمل وقابل للاتصال؟'],
+      ['السياق الشخصي · WISAM', 'مقارنة الموقع بالروتين المعتاد، مع الإشارات المتاحة.'],
     ]
   : [
       ['Location', 'Place and time of the last update'],
@@ -23,6 +24,10 @@ const signals = ar
       ['Heart rate / HRV', 'Additional data if the device provides it'],
       ['Connectivity', 'Did the signal arrive or stop?'],
       ['Device / battery', 'Is the device running and connected?'],
+      [
+        'Personal context · WISAM',
+        'Location compared with the person’s usual routine, alongside available signals.',
+      ],
     ];
 ---
 
@@ -150,8 +155,8 @@ const signals = ar
     <p>
       {
         ar
-          ? 'إشارات الجهاز ← مقارنة بما هو معتاد ← فحص السلامة ← معلومات يراجعها مقدّم الرعاية'
-          : 'Device signals → comparison with routine → safety checks → caregiver review'
+          ? 'إشارات الجهاز ← خط أساس شخصي ← سياق التغيّر ← مراجعة مقدّم الرعاية'
+          : 'Device signals → personal baseline → context for change → caregiver review'
       }
     </p>
     <a href={ar ? '/ar/evidence/' : '/evidence/'}
@@ -199,7 +204,7 @@ const signals = ar
   }
   .wearable-callouts {
     display: grid;
-    gap: 32px;
+    gap: 24px;
     position: relative;
     z-index: 2;
   }
@@ -241,6 +246,14 @@ const signals = ar
   }
   .wearable-callout.is-active strong {
     color: #502781;
+  }
+  .wearable-callout[data-wearable-callout='6'] {
+    background: #e6d9f3;
+    border-radius: 0 0 12px 12px;
+    padding: 14px 12px 12px;
+  }
+  .wearable-callout[data-wearable-callout='6'] strong {
+    color: var(--brand-deep);
   }
   .wearable-callout strong,
   .wearable-callout small {
@@ -431,6 +444,9 @@ const signals = ar
     .wearable-callout {
       display: block;
       min-height: 0;
+    }
+    .wearable-callout[data-wearable-callout='6'] {
+      grid-column: 1 / -1;
     }
     .wearable-callout strong,
     .wearable-callout small {

@@ -367,7 +367,7 @@ export const assets = {
   },
   teamTurki: {
     id: 'teamTurki',
-    filename: '/media/team-turki-unified.webp',
+    filename: '/media/team-turki-2026.webp',
     type: 'team-portrait',
 
     status: 'user-supplied',
@@ -375,11 +375,11 @@ export const assets = {
     sections: ['team'],
     altEn: 'Portrait of Turki Halabi',
     altAr: 'صورة تركي حلبي',
-    aspectRatio: '4:5',
-    dimensions: '720×900',
+    aspectRatio: '640:427',
+    dimensions: '1280×854; displayed in a 4:5 frame',
     generated: false,
     copyrightNotes:
-      'User-supplied source. macOS Vision subject mask and deterministic compositing replace background pixels with the shared neutral gray; original foreground pixels are preserved, with 4:5 crop and matched face scale.',
+      'New portrait supplied and approved by the user on 2026-10-01. Original photograph encoded as WebP with metadata removed; no retouching or face changes. CSS framing provides the shared 4:5 presentation.',
     approvedForPublicUse: true,
   },
   teamAnan: {

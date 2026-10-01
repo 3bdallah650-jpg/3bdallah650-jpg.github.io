@@ -116,7 +116,8 @@ summary {
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.11em;
-  font-size: 12px;
+  font-size: clamp(1rem, 1.35vw, 1.125rem);
+  line-height: 1.5;
   font-weight: 700;
   color: var(--brand);
   margin: 0 0 23px;
@@ -456,17 +457,6 @@ html[dir='rtl'] .hero-shade {
   color: var(--muted);
   font-size: 12px;
 }
-.problem-scene {
-  width: min(100% - 48px, 900px);
-  margin-block-start: 78px;
-  margin-inline-start: auto;
-}
-.problem-scene .contextual-image {
-  aspect-ratio: 3 / 2;
-}
-.problem-scene img {
-  object-position: center 43%;
-}
 .split-heading {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
@@ -518,44 +508,25 @@ html[dir='rtl'] .hero-shade {
   color: var(--brand);
 }
 .step-icon {
-  width: 76px;
-  height: 76px;
+  width: 86px;
+  height: 86px;
   display: grid;
   place-items: center;
-  margin: 40px 0 29px;
-  border-radius: 50%;
-  background: #ece3f9;
+  margin: 32px 0 24px;
+  color: var(--brand);
 }
-.diagram-glyph {
-  width: 35px;
-  height: 35px;
-  border: 2px solid var(--brand);
-  border-radius: 50%;
-  position: relative;
+.process-illustration {
+  width: 100%;
+  height: 100%;
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.glyph-1:after {
-  content: '';
-  position: absolute;
-  inset: 9px;
-  border: 2px solid var(--brand);
-  border-radius: 50%;
+.step:hover .process-illustration {
+  transform: translateY(-3px);
 }
-.glyph-2 {
-  border-style: dashed;
-}
-.glyph-2:after {
-  content: '';
-  position: absolute;
-  top: 13px;
-  left: -14px;
-  width: 59px;
-  height: 2px;
-  background: var(--brand);
-  transform: rotate(-30deg);
-}
-.glyph-3 {
-  border-radius: 8px;
-  transform: rotate(45deg);
+@media (prefers-reduced-motion: reduce) {
+  .step:hover .process-illustration {
+    transform: none;
+  }
 }
 .step h3 {
   margin-bottom: 10px;
@@ -812,7 +783,7 @@ html[dir='rtl'] .story-step.is-active {
 }
 .small-label,
 .evidence-kicker {
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 700;
@@ -1563,16 +1534,6 @@ html[dir='rtl'] .team-person figcaption span {
   .split-body {
     padding-top: 0;
   }
-  .problem-scene {
-    width: min(100% - 40px, 620px);
-    margin-block-start: 42px;
-  }
-  .problem-scene .contextual-image {
-    aspect-ratio: 4 / 5;
-  }
-  .problem-scene img {
-    object-position: 43% center;
-  }
   .team-heading {
     margin-bottom: 38px;
   }
@@ -1603,12 +1564,6 @@ html[dir='rtl'] .team-person figcaption span {
     width: 58px;
     height: 58px;
     margin: 20px 0;
-  }
-  .diagram-glyph {
-    transform: scale(0.75);
-  }
-  .glyph-3 {
-    transform: scale(0.75) rotate(45deg);
   }
   .intelligence-copy {
     padding-bottom: 22px;

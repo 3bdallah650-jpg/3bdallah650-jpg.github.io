@@ -7,6 +7,7 @@ import Wearable from './Wearable.astro';
 import AIStory from './AIStory.astro';
 import Roadmap from './Roadmap.astro';
 import EvidenceDashboard from './EvidenceDashboard.astro';
+import ProcessIllustration from './ProcessIllustration.astro';
 interface Props {
   content: SiteContent;
 }
@@ -93,11 +94,23 @@ const captures = ar
 </section>
 
 <section class="section problem-section" aria-labelledby="problem-title">
-  <div class="container split-heading">
-    <div>
-      <p class="eyebrow">01 / {c.problem.eyebrow}</p><h2 id="problem-title">{c.problem.title}</h2>
-    </div><div class="split-body">
-      <p class="large-copy">{c.problem.body}</p><ul class="line-list">
+  <div class="problem-scene" aria-hidden="true">
+    <img
+      src={assets.neighborhood.filename}
+      alt=""
+      width="1280"
+      height="960"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="problem-shade" aria-hidden="true"></div>
+  <div class="container problem-layout">
+    <div class="problem-content">
+      <p class="eyebrow">01 / {c.problem.eyebrow}</p>
+      <h2 id="problem-title">{c.problem.title}</h2>
+      <p class="large-copy">{c.problem.body}</p>
+      <ul class="line-list">
         {
           c.problem.points.map((item, i) => (
             <li>
@@ -110,20 +123,8 @@ const captures = ar
         }
       </ul>
     </div>
+    <p class="problem-image-note">{c.problem.imageNote}</p>
   </div>
-  <figure class="container contextual-scene problem-scene">
-    <div class="contextual-image">
-      <img
-        src={assets.neighborhood.filename}
-        alt={ar ? assets.neighborhood.altAr : assets.neighborhood.altEn}
-        width="1280"
-        height="960"
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-    <figcaption>{c.problem.imageNote}</figcaption>
-  </figure>
 </section>
 
 <section class="section does-section" id="how" aria-labelledby="does-title">
@@ -139,7 +140,7 @@ const captures = ar
             <>
               <span class="step-index">0{i + 1}</span>
               <div class="step-icon" aria-hidden="true">
-                <span class={`diagram-glyph glyph-${i + 1}`} />
+                <ProcessIllustration stage={i} />
               </div>
               <h3>{step}</h3>
               <p>{c.does.descriptions[i]}</p>

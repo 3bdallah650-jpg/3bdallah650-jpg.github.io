@@ -7,6 +7,7 @@ const revealSelector = [
   '.what-flow > *',
   '.what-status',
   '.split-heading > *',
+  '.problem-content > *',
   '.three-steps > *',
   '.contextual-scene',
   '.product-gallery > *',
